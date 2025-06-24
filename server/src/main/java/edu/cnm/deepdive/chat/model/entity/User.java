@@ -35,7 +35,7 @@ public class User {
   @Column(nullable = false, updatable = false, length = 30, unique = true)
   private String oauthKey;
 
-  @Column(nullable = false, updatable = true, length = 30,  unique = true)
+  @Column(nullable = false, updatable = true, length = 30, unique = true)
   private String displayName;
 
   @Column(nullable = true, updatable = true)

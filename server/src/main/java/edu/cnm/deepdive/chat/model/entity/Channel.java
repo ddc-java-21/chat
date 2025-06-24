@@ -37,7 +37,7 @@ public class Channel {
   private Instant created;
 
   @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
+      cascade = CascadeType.ALL,orphanRemoval = true)
   private final List<Message> messages = new LinkedList<>();
 
   public long getId() {
