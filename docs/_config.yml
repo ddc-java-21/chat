@@ -8,15 +8,11 @@ titles_from_headings:
 prev_next_navigation:
 - bottom
 
-# TODO Modify the contents below for the specific project. NOTE THE INDENTATION!
-
-title: "Capstone Project"
-description: "Trust me, it'll be cool!"
-
-# TODO List team members in the author.name property.
+title: "Chat Project"
+description: "Simple Chat application implemented as a RESTful service with an Android client."
 
 author:
-  name: "DDC Student"
+  name: "Deep Dive Java Enterprise & Android Mobile bootcamp cohort 21, with Nick Bennett and Reed Searle"
 
 # Do not change the following line.
   copyright: true

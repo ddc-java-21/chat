@@ -1,13 +1,13 @@
-package edu.cnm.deepdive.capstone;
+package edu.cnm.deepdive.chat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CapstoneApplication {
+public class ChatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CapstoneApplication.class, args);
+		SpringApplication.run(ChatApplication.class, args);
 	}
 
 }

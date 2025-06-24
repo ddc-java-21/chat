@@ -1,10 +1,10 @@
-package edu.cnm.deepdive.capstone;
+package edu.cnm.deepdive.chat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CapstoneApplicationTests {
+class ChatApplicationTests {
 
 	@Test
 	void contextLoads() {

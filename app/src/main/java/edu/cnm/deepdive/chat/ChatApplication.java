@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package edu.cnm.deepdive.capstone;
+package edu.cnm.deepdive.chat;
 
 import android.app.Application;
 import dagger.hilt.android.HiltAndroidApp;
@@ -24,7 +24,7 @@ import dagger.hilt.android.HiltAndroidApp;
  * {@code AndroidManifest.xml}, or it will not be loaded and used by the Android system.
  */
 @HiltAndroidApp
-public class CapstoneApplication extends Application { // TODO Rename this class as aappropriate.
+public class ChatApplication extends Application { // TODO Rename this class as aappropriate.
 
   @Override
   public void onCreate() {
