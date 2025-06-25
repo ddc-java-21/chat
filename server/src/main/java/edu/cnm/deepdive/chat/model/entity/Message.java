@@ -83,7 +83,6 @@ public class Message {
 
 
 
-  // TODO: 6/24/25 Implement hashCode and equals.
   @Override
   public int hashCode() {
     return Long.hashCode(id);
