@@ -26,7 +26,7 @@ public class Message {
   @Column(nullable = false, updatable = false, unique = true)
   private UUID externalKey;
 
-  @Column(nullable = false, updatable = false) // TODO: 6/24/2025 Investigate appropriate length
+  @Column(nullable = false, updatable = false) // TODO: 6/24/25 Investigate appropriate length.
   private String text;
 
   @CreationTimestamp
@@ -81,9 +81,10 @@ public class Message {
     return this;
   }
 
-  // TODO: 6/24/2025 Implement hashcode and equals
+  // TODO: 6/24/25 Implement hashCode and equals.
+
   @PrePersist
-  void generateFieldsValues() {
+  void generateFieldValues() {
     externalKey = UUID.randomUUID();
   }
 

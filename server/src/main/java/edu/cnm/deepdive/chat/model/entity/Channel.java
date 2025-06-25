@@ -3,12 +3,14 @@ package edu.cnm.deepdive.chat.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -26,16 +28,16 @@ public class Channel {
   @Column(nullable = false, updatable = false, unique = true)
   private UUID externalKey;
 
-  @Column(nullable = false, updatable = false, length = 30, unique = true)
+  @Column(nullable = false, updatable = true, unique = true, length = 30)
   private String title;
 
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
-  private long created;
+  private Instant created;
 
-  @OneToMany(mappedBy = "channel", fetch = jakarta.persistence.FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,orphanRemoval = true)
   private final List<Message> messages = new LinkedList<>();
 
   public long getId() {
@@ -55,7 +57,7 @@ public class Channel {
     return this;
   }
 
-  public long getCreated() {
+  public Instant getCreated() {
     return created;
   }
 
@@ -63,9 +65,11 @@ public class Channel {
     return messages;
   }
 
-  // TODO: 6/24/2025 Implement hashcode and equals
+  // TODO: 6/24/25 Implement hashCode and equals.
+
   @PrePersist
-  void generateFieldsValues() {
+  void generateFieldValues() {
     externalKey = UUID.randomUUID();
   }
+
 }

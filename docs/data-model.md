@@ -14,6 +14,8 @@ order: 20
 
 ## UML class diagram
 
-## Entity- relationship diagram
-
 [//]: # (TODO Use Markdown or Liquid include to show UML class diagram in SVG format, linking to PDF format. )
+
+## Entity-relationship diagram (ERD)
+
+[![Entity-relationship diagram](img/erd.svg)](pdf/erd.pdf)

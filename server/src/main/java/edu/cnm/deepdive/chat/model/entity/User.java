@@ -2,6 +2,7 @@ package edu.cnm.deepdive.chat.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.PrePersist;
@@ -17,13 +18,11 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(
     name = "user_profile"
-//    indexes = {
-//        @Index(columnList = "created")
-//    }
 )
 public class User {
 
   @Id
+  @GeneratedValue
   @Column(name = "user_profile_id", nullable = false, updatable = false)
   private long id;
 
@@ -33,12 +32,12 @@ public class User {
   @Column(nullable = false, updatable = false, length = 30, unique = true)
   private String oauthKey;
 
-  @Column(nullable = false, updatable = true, length = 30)
+  @Column(nullable = false, updatable = true, length = 30, unique = true)
   private String displayName;
-  
+
   @Column(nullable = true, updatable = true)
   private URL avatar;
-  
+
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
@@ -83,6 +82,7 @@ public class User {
     return created;
   }
 
+  @Override
   public int hashCode() {
     return Long.hashCode(id);
   }
@@ -100,8 +100,10 @@ public class User {
     return comparison;
   }
 
+  // TODO: 6/24/25 Implement hashCode and equals.
   @PrePersist
-  void generateFieldsValues() {
+  void generateFieldValues() {
     externalKey = UUID.randomUUID();
   }
+
 }
