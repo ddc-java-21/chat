@@ -17,10 +17,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
-    name = "user_profile",
-    indexes = {
-        @Index(columnList = "created")
-    }
+    name = "user_profile"
 )
 public class User {
 
@@ -86,7 +83,7 @@ public class User {
   }
 
   @Override
-  public int hashCode() {   // DONE: 6/24/25 Implement hashCode and equals.
+  public int hashCode() {
     return Long.hashCode(id);
   }
 
@@ -95,7 +92,7 @@ public class User {
     boolean comparison;
     if (this == obj) {
       comparison = true;
-    } else if (obj instanceof User other) { //User other = (User) obj; --> don't need this after Java 14 (instanceof pattern matching)
+    } else if (obj instanceof User other) {
       comparison = (this.id != 0 && this.id == other.id);
     } else {
       comparison = false;
@@ -103,6 +100,7 @@ public class User {
     return comparison;
   }
 
+  // TODO: 6/24/25 Implement hashCode and equals.
   @PrePersist
   void generateFieldValues() {
     externalKey = UUID.randomUUID();
