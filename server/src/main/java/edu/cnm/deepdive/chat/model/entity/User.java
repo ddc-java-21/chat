@@ -104,6 +104,7 @@ public class User {
   }
 
   // TODO: 6/24/25 Implement hashCode and equals.
+
   @PrePersist
   void generateFieldValues() {
     externalKey = UUID.randomUUID();
