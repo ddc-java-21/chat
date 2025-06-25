@@ -9,6 +9,6 @@ public interface ChannelRepository extends CrudRepository<Channel, Long> {
 
   Optional<Channel> findByExternalKey(UUID externalKey);
 
-  Iterable<Channel> GetAllByOrderByTitleAsc();
+  Iterable<Channel> getAllByOrderByTitleAsc();
 
 }
