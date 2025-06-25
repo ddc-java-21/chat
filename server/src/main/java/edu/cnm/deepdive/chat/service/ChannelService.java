@@ -4,9 +4,11 @@ import edu.cnm.deepdive.chat.model.entity.Channel;
 import edu.cnm.deepdive.chat.service.dao.ChannelRepository;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("service")
 public class ChannelService implements AbstractChannelService{
 
   private final ChannelRepository repository;
