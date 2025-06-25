@@ -85,6 +85,24 @@ public class User {
     return created;
   }
 
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean comparison;
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof User other) {
+      comparison = (this.id != 0 && this.id == other.id);
+    } else {
+      comparison = false;
+    }
+    return comparison;
+  }
+
   // TODO: 6/24/25 Implement hashCode and equals.
   @PrePersist
   void generateFieldValues() {
