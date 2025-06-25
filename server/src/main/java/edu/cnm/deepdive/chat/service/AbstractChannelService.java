@@ -5,7 +5,6 @@ import java.util.UUID;
 
 public interface AbstractChannelService {
 
-
   Iterable<Channel> getAll();
 
   Channel get(UUID key);

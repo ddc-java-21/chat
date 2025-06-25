@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface AbstractUserService {
 
-  User getOrAdd(String oauthKey, User profile);
+  User getOrAddUser(String oauthKey, User profile);
 
 
 
