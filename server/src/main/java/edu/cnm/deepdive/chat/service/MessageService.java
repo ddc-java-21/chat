@@ -7,9 +7,11 @@ import edu.cnm.deepdive.chat.service.dao.MessageRepository;
 import java.time.Instant;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("service")
 public class MessageService implements AbstractMessageService {
 
   private final MessageRepository messageRepository;

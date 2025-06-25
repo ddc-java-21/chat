@@ -5,10 +5,12 @@ import edu.cnm.deepdive.chat.service.dao.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("service")
 public class UserService implements AbstractUserService {
 
   private final UserRepository repository;

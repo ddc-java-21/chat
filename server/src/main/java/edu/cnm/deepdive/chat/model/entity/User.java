@@ -9,10 +9,12 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 import java.net.URL;
 import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
@@ -20,6 +22,9 @@ import org.hibernate.annotations.CreationTimestamp;
     name = "user_profile"
 )
 public class User {
+
+  private static final int MAX_DISPLAY_NAME_LENGTH = 30;
+  private static final int MAX_OAUTH_KEY_LENGTH = 30;
 
   @Id
   @GeneratedValue
@@ -29,10 +34,12 @@ public class User {
   @Column(nullable = false, updatable = false, unique = true)
   private UUID externalKey;
 
-  @Column(nullable = false, updatable = false, length = 30, unique = true)
+  @Column(nullable = false, updatable = false, length = MAX_OAUTH_KEY_LENGTH, unique = true)
   private String oauthKey;
 
-  @Column(nullable = false, updatable = true, length = 30, unique = true)
+  @NotBlank
+  @Length(max = MAX_DISPLAY_NAME_LENGTH)
+  @Column(nullable = false, updatable = true, length = MAX_DISPLAY_NAME_LENGTH, unique = true)
   private String displayName;
 
   @Column(nullable = true, updatable = true)
@@ -100,7 +107,6 @@ public class User {
     return comparison;
   }
 
-  // TODO: 6/24/25 Implement hashCode and equals.
   @PrePersist
   void generateFieldValues() {
     externalKey = UUID.randomUUID();
