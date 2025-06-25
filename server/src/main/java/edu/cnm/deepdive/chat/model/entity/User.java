@@ -100,8 +100,6 @@ public class User {
     return comparison;
   }
 
-  // TODO: 6/24/25 Implement hashCode and equals.
-
   @PrePersist
   void generateFieldValues() {
     externalKey = UUID.randomUUID();
