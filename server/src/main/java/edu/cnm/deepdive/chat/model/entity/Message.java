@@ -10,13 +10,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 public class Message {
+
+  private static final int MAX_MESSAGE_LENGTH = 255;
 
   @Id
   @GeneratedValue
@@ -26,7 +30,10 @@ public class Message {
   @Column(nullable = false, updatable = false, unique = true)
   private UUID externalKey;
 
-  @Column(nullable = false, updatable = false) // TODO: 6/24/25 Investigate appropriate length.
+
+  @NotBlank
+  @Length(max = MAX_MESSAGE_LENGTH)
+  @Column(nullable = false, updatable = false)
   private String text;
 
   @CreationTimestamp

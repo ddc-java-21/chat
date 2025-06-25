@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.chat.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,9 +26,11 @@ public class Channel {
   @Id
   @GeneratedValue
   @Column(name = "channel_id", nullable = false, updatable = false)
+  @JsonIgnore
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
+  @JsonProperty(access = Access.READ_ONLY, value = "key")
   private UUID externalKey;
 
   @Column(nullable = false, updatable = true, unique = true, length = 30)
@@ -34,10 +39,12 @@ public class Channel {
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_ONLY)
   private Instant created;
 
   @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,orphanRemoval = true)
+  @JsonIgnore
   private final List<Message> messages = new LinkedList<>();
 
   public long getId() {

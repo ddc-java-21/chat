@@ -1,13 +1,18 @@
-package edu.cnm.deepdive.chat.service.dao;
+package edu.cnm.deepdive.chat.service;
 
 import edu.cnm.deepdive.chat.model.entity.Message;
 import edu.cnm.deepdive.chat.model.entity.User;
+import edu.cnm.deepdive.chat.service.dao.ChannelRepository;
+import edu.cnm.deepdive.chat.service.dao.MessageRepository;
+import java.time.Instant;
 import java.util.UUID;
 import org.apache.logging.log4j.CloseableThreadContext.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("service")
 public class MessageService implements AbstractMessageService {
 
   private final MessageRepository messageRepository;
@@ -28,8 +33,7 @@ public class MessageService implements AbstractMessageService {
   }
 
   @Override
-  public Message getAllInChannelSince(UUID key, Instance cutoff) {
-    //return getAllInChannelSince(channelKey, Instant.Min)
+  public Iterable<Message> getAllInChannelSince(UUID channelKey, Instant cutoff) {
     return channelRepository
         .findByExternalKey(channelKey)
         .map((channel) ->
