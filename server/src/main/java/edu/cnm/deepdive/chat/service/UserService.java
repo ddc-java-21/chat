@@ -46,7 +46,7 @@ public class UserService implements AbstractUserService {
   public User getUser(User requestor, UUID key) {
     return repository
         .findByExternalKey(key)
-        .orElseThrow(); // NoSuchElementException
+        .orElseThrow();
   }
 
   @Override
@@ -57,16 +57,16 @@ public class UserService implements AbstractUserService {
   @Override
   public User updateMe(User requestor, User delta) {
     return repository
-        .findById(requestor.getId()) // reloads user from the database
-        .map((retrieved) -> { // retrieved = pre-updated object
+        .findById(requestor.getId())
+        .map((retrieved) -> {
           if (delta.getDisplayName() != null) {
             retrieved.setDisplayName(delta.getDisplayName());
           }
           if (delta.getAvatar() != null) {
             retrieved.setAvatar(delta.getAvatar());
           }
-          return repository.save(retrieved); // save returns the updated object (and its type)
-        }) // gets skipped if no value is present
+          return repository.save(retrieved);
+        })
         .orElseThrow();
   }
 

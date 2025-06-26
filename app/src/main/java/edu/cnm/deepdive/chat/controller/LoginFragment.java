@@ -44,7 +44,7 @@ public class LoginFragment extends Fragment {
         .getAccount()
         .observe(owner, (account) -> {
           if (account != null) {
-            Navigation.findNavController(binding.getRoot()) // DONE: 6/23/25 Navigate to ListFragment.
+            Navigation.findNavController(binding.getRoot())
                 .navigate(LoginFragmentDirections.showList());
           }
         });
@@ -52,11 +52,11 @@ public class LoginFragment extends Fragment {
         .getSignInThrowable()
         .observe(owner, (throwable) -> {
           if (throwable != null) {
-            Snackbar.make(binding.getRoot(), R.string.sign_in_failure_message, Snackbar.LENGTH_LONG) // DONE: 6/23/25 Display a Snackbar for the error.
+            Snackbar.make(binding.getRoot(), R.string.sign_in_failure_message, Snackbar.LENGTH_LONG)
                 .show();
           }
         });
-    launcher = registerForActivityResult(new StartActivityForResult(), viewModel::completeSignIn); // method reference ok bc we assigned viewModel above (it's not final, but WE assign it)
+    launcher = registerForActivityResult(new StartActivityForResult(), viewModel::completeSignIn);
   }
 
   @Override

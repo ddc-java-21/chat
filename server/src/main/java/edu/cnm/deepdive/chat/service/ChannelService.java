@@ -29,4 +29,5 @@ public class ChannelService implements AbstractChannelService {
         .findByExternalKey(key)
         .orElseThrow();
   }
+
 }

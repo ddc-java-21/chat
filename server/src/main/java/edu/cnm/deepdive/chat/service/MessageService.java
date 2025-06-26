@@ -25,7 +25,6 @@ public class MessageService implements AbstractMessageService {
 
   @Override
   public Iterable<Message> getAllInChannel(UUID channelKey) {
-//    return getAllInChannelSince(channelKey, Instant.MIN);
     return channelRepository
         .findByExternalKey(channelKey)
         .map(messageRepository::findByChannelOrderByPostedAsc)
@@ -52,4 +51,5 @@ public class MessageService implements AbstractMessageService {
         })
         .orElseThrow();
   }
+
 }

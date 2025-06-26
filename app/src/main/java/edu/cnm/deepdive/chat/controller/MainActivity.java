@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         R.id.pre_login_fragment, R.id.login_fragment, R.id.main_fragment)
         .build();
     NavHostFragment host = binding.navHostFragment.getFragment();
-    navController = host.getNavController(); // reference to the piece of machinery that will swap in one fragment for another
+    navController = host.getNavController();
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);
   }
 

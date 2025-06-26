@@ -16,7 +16,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javax.inject.Inject;
 
-/** @noinspection deprecation*/
+/**
+ * @noinspection deprecation
+ */
 @HiltViewModel
 public class LoginViewModel extends ViewModel implements DefaultLifecycleObserver {
 
@@ -37,16 +39,16 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
     pending = new CompositeDisposable();
   }
 
-  public LiveData<Throwable> getSignInThrowable() {
-    return signInThrowable;
+  public LiveData<GoogleSignInAccount> getAccount() {
+    return account;
   }
 
   public LiveData<Throwable> getRefreshThrowable() {
     return refreshThrowable;
   }
 
-  public LiveData<GoogleSignInAccount> getAccount() {
-    return account;
+  public LiveData<Throwable> getSignInThrowable() {
+    return signInThrowable;
   }
 
   public void refresh() {
@@ -57,7 +59,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
         .subscribe(
             account::postValue,
             (throwable) -> postThrowable(throwable, refreshThrowable),
-            pending // subscribe method will not only turn the power on, it will take the claim check and put it into that pending bucket
+            pending
         );
   }
 
@@ -67,13 +69,13 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
     service.startSignIn(launcher);
   }
 
-  public void completeSignIn(@NonNull ActivityResult result) { // invoked from the UI (could be when the view is created, or could be invoked from sign-in button from UI) --> UI thread
+  public void completeSignIn(@NonNull ActivityResult result) {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
     service
         .completeSignIn(result)
         .subscribe(
-            account::postValue,          // since I don't know it's on the UI thread, we must use postValue
+            account::postValue,
             (throwable) -> postThrowable(throwable, signInThrowable),
             pending
         );
@@ -84,7 +86,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
     signInThrowable.setValue(null);
     Disposable disposable = service
         .signOut()
-        .doFinally(() -> account.postValue(null)) // doesn't happen in order: doFinally doesn't execute until the stream is done
+        .doFinally(() -> account.postValue(null))
         .doOnError((throwable) -> postThrowable(throwable, signInThrowable))
         .subscribe();
     pending.add(disposable);
@@ -92,7 +94,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
 
   private void postThrowable(
       @NonNull Throwable throwable, @NonNull MutableLiveData<Throwable> target) {
-    Log.e(TAG, throwable.getMessage(), throwable); // log, then put into live data
+    Log.e(TAG, throwable.getMessage(), throwable);
     target.postValue(throwable);
   }
 

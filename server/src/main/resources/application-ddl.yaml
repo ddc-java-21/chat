@@ -1,8 +1,10 @@
 spring:
   application:
     name: ddl
+
   main:
     web-application-type: none
+
   jpa:
     properties:
       hibernate:
@@ -10,6 +12,7 @@ spring:
           schema-generation:
             script:
               append: false
+
       jakarta:
         persistence:
           schema-generation:

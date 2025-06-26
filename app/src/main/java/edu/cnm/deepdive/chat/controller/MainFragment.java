@@ -61,7 +61,7 @@ public class MainFragment extends Fragment implements MenuProvider {
   public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
     boolean handled = false;
     if (menuItem.getItemId() == R.id.sign_out) {
-
+      viewModel.signOut();
     }
     return handled;
   }

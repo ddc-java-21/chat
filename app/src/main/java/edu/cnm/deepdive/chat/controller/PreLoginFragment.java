@@ -24,19 +24,19 @@ public class PreLoginFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_pre_login, container, false);
-    return root; // layout has nothing in it --> we are inflating it and returning it; BUT if we returned null, onViewCreated would never be called :D
+    return root;
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     LoginViewModel viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
-    LifecycleOwner owner = getViewLifecycleOwner(); // whenever we are going to observe live data in an activity
+    LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()
         .observe(owner, (account) -> {
           if (account != null) {
-            Navigation.findNavController(root) // DONE: 6/23/25 Navigate to ListFragment.
+            Navigation.findNavController(root)
                 .navigate(PreLoginFragmentDirections.showList());
           }
         });
@@ -44,7 +44,7 @@ public class PreLoginFragment extends Fragment {
         .getRefreshThrowable()
         .observe(owner, (throwable) -> {
           if (throwable != null) {
-            Navigation.findNavController(root) // DONE: 6/23/25 Navigate to LoginFragment.
+            Navigation.findNavController(root)
                 .navigate(PreLoginFragmentDirections.showLogin());
           }
         });
@@ -53,7 +53,7 @@ public class PreLoginFragment extends Fragment {
 
   @Override
   public void onDestroyView() {
-    root = null; // just in fragment you need to assign widgets null
+    root = null;
     super.onDestroyView();
   }
 

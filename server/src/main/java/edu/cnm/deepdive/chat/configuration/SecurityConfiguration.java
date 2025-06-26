@@ -47,7 +47,7 @@ public class SecurityConfiguration {
     return security
         .sessionManagement((configurer) ->
             configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated()) // usually use matcher as last one in chain
+        .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
         .oauth2ResourceServer((customizer) ->
             customizer.jwt((jwt) -> jwt.jwtAuthenticationConverter(converter)))
         .build();
