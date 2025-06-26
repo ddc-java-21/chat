@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,6 +25,7 @@ import org.hibernate.validator.constraints.Length;
 @SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
 @JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"key", "author", "text", "posted"})
 public class Message {
 
   private static final int MAX_MESSAGE_LENGTH = 255;
@@ -72,9 +74,8 @@ public class Message {
     return text;
   }
 
-  public Message setText(String text) {
+  public void setText(String text) {
     this.text = text;
-    return this;
   }
 
   public Instant getPosted() {
@@ -85,9 +86,8 @@ public class Message {
     return author;
   }
 
-  public Message setAuthor(User author) {
+  public void setAuthor(User author) {
     this.author = author;
-    return this;
   }
 
   public Channel getChannel() {
@@ -116,10 +116,6 @@ public class Message {
     }
     return comparison;
   }
-
-  // TODO: 6/24/25 Implement hashCode and equals.
-
-  // TODO: 6/24/25 Implement hashCode and equals.
 
   @PrePersist
   void generateFieldValues() {

@@ -64,9 +64,8 @@ public class Channel {
     return title;
   }
 
-  public Channel setTitle(String title) {
+  public void setTitle(String title) {
     this.title = title;
-    return this;
   }
 
   public Instant getCreated() {
@@ -94,8 +93,6 @@ public class Channel {
     }
     return comparison;
   }
-
-  // TODO: 6/24/25 Implement hashCode and equals.
 
   @PrePersist
   void generateFieldValues() {
