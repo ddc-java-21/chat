@@ -16,7 +16,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javax.inject.Inject;
 
-/** @noinspection deprecation*/
+/**
+ * @noinspection deprecation
+ */
 @HiltViewModel
 public class LoginViewModel extends ViewModel implements DefaultLifecycleObserver {
 
@@ -48,7 +50,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
   public LiveData<Throwable> getSignInThrowable() {
     return signInThrowable;
   }
-  
+
   public void refresh() {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
@@ -66,7 +68,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
     signInThrowable.setValue(null);
     service.startSignIn(launcher);
   }
-  
+
   public void completeSignIn(@NonNull ActivityResult result) {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
@@ -78,7 +80,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
             pending
         );
   }
-  
+
   public void signOut() {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
@@ -89,11 +91,11 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
         .subscribe();
     pending.add(disposable);
   }
-  
+
   private void postThrowable(
       @NonNull Throwable throwable, @NonNull MutableLiveData<Throwable> target) {
     Log.e(TAG, throwable.getMessage(), throwable);
     target.postValue(throwable);
   }
-  
+
 }
