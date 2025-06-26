@@ -73,27 +73,24 @@ public class User {
     return oauthKey;
   }
 
-  public User setOauthKey(String oauthKey) {
+  public void setOauthKey(String oauthKey) {
     this.oauthKey = oauthKey;
-    return this;
   }
 
   public String getDisplayName() {
     return displayName;
   }
 
-  public User setDisplayName(String displayName) {
+  public void setDisplayName(String displayName) {
     this.displayName = displayName;
-    return this;
   }
 
   public URL getAvatar() {
     return avatar;
   }
 
-  public User setAvatar(URL avatar) {
+  public void setAvatar(URL avatar) {
     this.avatar = avatar;
-    return this;
   }
 
   public Instant getCreated() {
