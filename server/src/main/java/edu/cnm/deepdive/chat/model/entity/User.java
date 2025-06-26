@@ -1,5 +1,11 @@
 package edu.cnm.deepdive.chat.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,11 +22,14 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
+@SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
 @Table(
     name = "user_profile"
 )
+
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"key", "displayName", "avatar", "created"})
 public class User {
 
   private static final int MAX_DISPLAY_NAME_LENGTH = 30;
@@ -29,17 +38,23 @@ public class User {
   @Id
   @GeneratedValue
   @Column(name = "user_profile_id", nullable = false, updatable = false)
+  // Use @JsonIgnore so that you ignore the serializing and deserialzing to and from the client and server
+  @JsonIgnore
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
+  // Key is just another name that we are describing the external key and we only want to read this
+  @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
   @Column(nullable = false, updatable = false, length = MAX_OAUTH_KEY_LENGTH, unique = true)
+  @JsonIgnore
   private String oauthKey;
 
   @NotBlank
   @Length(max = MAX_DISPLAY_NAME_LENGTH)
   @Column(nullable = false, updatable = true, length = MAX_DISPLAY_NAME_LENGTH, unique = true)
+  // Want to read and write aka update displayName and avatar so don't have jakson do anything with these variables
   private String displayName;
 
   @Column(nullable = true, updatable = true)
@@ -48,6 +63,7 @@ public class User {
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_ONLY)
   private Instant created;
 
   public long getId() {

@@ -15,9 +15,38 @@
   limitations under the License.
 -->
 <resources>
+
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
     <!-- TODO Customize your theme here. -->
+<!--In a style the name of the item has to be one of the attribute themes,
+    Name is unique in the item but the parent reference is a predefined style you already made-->
+    <item name="toolbarElevation">@dimen/toolbar_elevation</item>
+    <item name="toolbarStyle">@style/Widget.ToolBar</item>
+    <item name="appBarLayoutStyle">@style/Widget.AppBarLayout</item>
+  </style>
+
+<!--Inheriting from a parent takes precedent over inheriting from the name-->
+  <style name="Widget.ToolBar" parent="Widget.Material3.Toolbar">
+    <item name="android:background">?attr/colorSurface</item>
+    <item name="android:elevation">?attr/toolbarElevation</item>
+    <item name="android:minHeight">?attr/actionBarSize</item>
+    <item name="navigationIconTint">?attr/colorOnSurface</item>
+    <item name="titleTextAppearance">@style/TextAppearance.Toolbar.Title</item>
+    <item name="subtitleTextAppearance">@style/TextAppearance.Toolbar.Subtitle</item>
+  </style>
+
+  <style name="Widget.AppBarLayout" parent="Widget.Material3.AppBarLayout">
+    <item name="android:background">?attr/colorSurface</item>
+    <item name="android:elevation">?attr/toolbarElevation</item>
+  </style>
+
+  <style name="TextAppearance.Toolbar.Title" parent="TextAppearance.Material3.TitleLarge">
+    <item name="android:textColor">?attr/colorOnSurface</item>
+  </style>
+
+  <style name="TextAppearance.Toolbar.Subtitle" parent="TextAppearance.Material3.BodySmall">
+    <item name="android:textColor">?attr/colorOnSurface</item>
   </style>
 
 </resources>
