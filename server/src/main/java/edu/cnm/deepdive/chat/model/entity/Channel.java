@@ -64,9 +64,8 @@ public class Channel {
     return title;
   }
 
-  public Channel setTitle(String title) {
+  public void setTitle(String title) {
     this.title = title;
-    return this;
   }
 
   public Instant getCreated() {
@@ -77,7 +76,23 @@ public class Channel {
     return messages;
   }
 
-  // TODO: 6/24/25 Implement hashCode and equals.
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean comparison;
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof Channel other) {
+      comparison = (this.id != 0 && this.id == other.id);
+    } else {
+      comparison = false;
+    }
+    return comparison;
+  }
 
   @PrePersist
   void generateFieldValues() {
