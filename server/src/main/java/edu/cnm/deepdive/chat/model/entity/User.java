@@ -10,7 +10,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -27,7 +26,6 @@ import org.hibernate.validator.constraints.Length;
 @Table(
     name = "user_profile"
 )
-
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"key", "displayName", "avatar", "created"})
 public class User {
@@ -38,12 +36,10 @@ public class User {
   @Id
   @GeneratedValue
   @Column(name = "user_profile_id", nullable = false, updatable = false)
-  // Use @JsonIgnore so that you ignore the serializing and deserialzing to and from the client and server
   @JsonIgnore
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
-  // Key is just another name that we are describing the external key and we only want to read this
   @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
@@ -54,7 +50,6 @@ public class User {
   @NotBlank
   @Length(max = MAX_DISPLAY_NAME_LENGTH)
   @Column(nullable = false, updatable = true, length = MAX_DISPLAY_NAME_LENGTH, unique = true)
-  // Want to read and write aka update displayName and avatar so don't have jakson do anything with these variables
   private String displayName;
 
   @Column(nullable = true, updatable = true)

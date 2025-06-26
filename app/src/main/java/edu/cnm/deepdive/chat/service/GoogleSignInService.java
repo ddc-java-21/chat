@@ -9,7 +9,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.Api.ApiOptions.HasGoogleSignInAccountOptions;
 import com.google.android.gms.common.api.ApiException;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import edu.cnm.deepdive.chat.R;
@@ -20,7 +19,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/** @noinspection deprecation*/
+/**
+ * @noinspection deprecation
+ */
 @Singleton
 public class GoogleSignInService {
 
@@ -38,11 +39,12 @@ public class GoogleSignInService {
   }
 
   public Single<GoogleSignInAccount> refresh() {
-    return Single.create((SingleEmitter<GoogleSignInAccount>emitter) -> client
-          .silentSignIn()
-          .addOnSuccessListener(emitter::onSuccess)
-          .addOnFailureListener(emitter::onError)
-    )
+    return Single.create((SingleEmitter<GoogleSignInAccount> emitter) ->
+            client
+                .silentSignIn()
+                .addOnSuccessListener(emitter::onSuccess)
+                .addOnFailureListener(emitter::onError)
+        )
         .observeOn(Schedulers.io());
   }
 
@@ -52,13 +54,14 @@ public class GoogleSignInService {
 
   public Single<GoogleSignInAccount> completeSignIn(ActivityResult result) {
     return Single.create((SingleEmitter<GoogleSignInAccount> emitter) -> {
-      try {
-        GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(result.getData())
-            .getResult(ApiException.class);
-        emitter.onSuccess(account);
-      } catch (ApiException e) {
-        emitter.onError(e);
-      }
+          try {
+            GoogleSignInAccount account =
+                GoogleSignIn.getSignedInAccountFromIntent(result.getData())
+                    .getResult(ApiException.class);
+            emitter.onSuccess(account);
+          } catch (ApiException e) {
+            emitter.onError(e);
+          }
         })
         .subscribeOn(Schedulers.io());
   }

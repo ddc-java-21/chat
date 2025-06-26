@@ -26,14 +26,13 @@ public class LoginFragment extends Fragment {
   private LoginViewModel viewModel;
   private ActivityResultLauncher<Intent> launcher;
 
-
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     binding = FragmentLoginBinding.inflate(inflater, container, false);
     binding.signIn.setOnClickListener((v) -> viewModel.startSignIn(launcher));
-        return binding.getRoot();
+    return binding.getRoot();
   }
 
   @Override
@@ -58,7 +57,6 @@ public class LoginFragment extends Fragment {
           }
         });
     launcher = registerForActivityResult(new StartActivityForResult(), viewModel::completeSignIn);
-
   }
 
   @Override
@@ -66,4 +64,5 @@ public class LoginFragment extends Fragment {
     binding = null;
     super.onDestroyView();
   }
+
 }

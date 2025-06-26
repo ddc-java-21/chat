@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 @Validated
+@Profile("service")
 public class UserController {
 
   private final AbstractUserService service;
@@ -32,7 +33,6 @@ public class UserController {
     return service.getMe(service.getCurrentUser());
   }
 
-  // If Spring MVC can't use the key as a UUID then the whole method does not get invoked
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User get(@PathVariable UUID key) {
     return service.getUser(service.getCurrentUser(), key);
@@ -45,5 +45,4 @@ public class UserController {
   }
 
   // TODO: 6/26/25 Implement additional controller methods for users.
-
 }

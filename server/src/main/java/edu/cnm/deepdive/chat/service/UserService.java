@@ -52,7 +52,6 @@ public class UserService implements AbstractUserService {
   @Override
   public User getMe(User requestor) {
     return requestor;
-
   }
 
   @Override
@@ -63,11 +62,12 @@ public class UserService implements AbstractUserService {
           if (delta.getDisplayName() != null) {
             retrieved.setDisplayName(delta.getDisplayName());
           }
-          if (delta.getDisplayName() != null) {
+          if (delta.getAvatar() != null) {
             retrieved.setAvatar(delta.getAvatar());
           }
           return repository.save(retrieved);
         })
         .orElseThrow();
   }
+
 }

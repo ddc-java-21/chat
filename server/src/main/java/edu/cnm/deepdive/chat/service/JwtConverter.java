@@ -11,8 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-@Profile("service")
 @Service
+@Profile("service")
 public class JwtConverter implements Converter<Jwt, UsernamePasswordAuthenticationToken> {
 
   private final AbstractUserService userService;
@@ -33,4 +33,5 @@ public class JwtConverter implements Converter<Jwt, UsernamePasswordAuthenticati
     user = userService.getOrAddUser(source.getSubject(), user);
     return new UsernamePasswordAuthenticationToken(user, source.getTokenValue(), grants);
   }
+
 }

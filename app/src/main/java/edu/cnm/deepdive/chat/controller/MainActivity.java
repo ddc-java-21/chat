@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.chat.controller;
 
 import android.os.Bundle;
-
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import androidx.activity.EdgeToEdge;
@@ -22,6 +21,7 @@ import edu.cnm.deepdive.chat.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = MainActivity.class.getSimpleName();
+
   private ActivityMainBinding binding;
   private AppBarConfiguration appBarConfig;
   private NavController navController;
@@ -48,14 +48,14 @@ public class MainActivity extends AppCompatActivity {
   private void setupNavigation() {
     setSupportActionBar(binding.toolbar);
     appBarConfig = new AppBarConfiguration.Builder(
-        R.id.main_fragment, R.id.pre_login_fragment, R.id.login_fragment)
+        R.id.pre_login_fragment, R.id.login_fragment, R.id.main_fragment)
         .build();
     NavHostFragment host = binding.navHostFragment.getFragment();
     navController = host.getNavController();
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);
   }
 
-  // Method to deal with the black background space that is automatically around the side of display
+  @NonNull
   private static WindowInsetsCompat adjustInsets(
       @NonNull View view, @NonNull WindowInsetsCompat windowInsets) {
     Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());

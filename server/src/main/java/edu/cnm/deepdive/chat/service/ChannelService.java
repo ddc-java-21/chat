@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("service")
-public class ChannelService implements AbstractChannelService{
+public class ChannelService implements AbstractChannelService {
 
   private final ChannelRepository repository;
 
   @Autowired
-  public ChannelService(ChannelRepository repository) {
+  ChannelService(ChannelRepository repository) {
     this.repository = repository;
   }
 
@@ -29,4 +29,5 @@ public class ChannelService implements AbstractChannelService{
         .findByExternalKey(key)
         .orElseThrow();
   }
+
 }

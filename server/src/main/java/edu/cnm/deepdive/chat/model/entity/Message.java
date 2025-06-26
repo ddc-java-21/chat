@@ -29,6 +29,7 @@ import org.hibernate.validator.constraints.Length;
 public class Message {
 
   private static final int MAX_MESSAGE_LENGTH = 255;
+
   @Id
   @GeneratedValue
   @Column(name = "message_id", nullable = false, updatable = false)
@@ -41,7 +42,7 @@ public class Message {
 
   @NotBlank
   @Length(max = MAX_MESSAGE_LENGTH)
-  @Column(nullable = false, updatable = false, length = MAX_MESSAGE_LENGTH) // TODO: 6/24/25 Investigate appropriate length.
+  @Column(nullable = false, updatable = false, length = MAX_MESSAGE_LENGTH)
   private String text;
 
   @CreationTimestamp
@@ -96,8 +97,6 @@ public class Message {
     this.channel = channel;
   }
 
-
-
   @Override
   public int hashCode() {
     return Long.hashCode(id);
@@ -115,7 +114,6 @@ public class Message {
     }
     return comparison;
   }
-
 
   @PrePersist
   void generateFieldValues() {

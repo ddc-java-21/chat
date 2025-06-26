@@ -15,11 +15,10 @@ import org.springframework.stereotype.Service;
 public class MessageService implements AbstractMessageService {
 
   private final MessageRepository messageRepository;
-
   private final ChannelRepository channelRepository;
 
   @Autowired
-  public MessageService(MessageRepository messageRepository, ChannelRepository channelRepository) {
+  MessageService(MessageRepository messageRepository, ChannelRepository channelRepository) {
     this.messageRepository = messageRepository;
     this.channelRepository = channelRepository;
   }
@@ -52,4 +51,5 @@ public class MessageService implements AbstractMessageService {
         })
         .orElseThrow();
   }
+
 }

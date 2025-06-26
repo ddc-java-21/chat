@@ -10,13 +10,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.Api.ApiOptions.HasGoogleSignInAccountOptions;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.cnm.deepdive.chat.service.GoogleSignInService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import javax.inject.Inject;
 
-/** @noinspection deprecation*/
+/**
+ * @noinspection deprecation
+ */
 @HiltViewModel
 public class LoginViewModel extends ViewModel implements DefaultLifecycleObserver {
 
@@ -27,7 +29,6 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
   private final MutableLiveData<Throwable> refreshThrowable;
   private final MutableLiveData<Throwable> signInThrowable;
   private final CompositeDisposable pending;
-
 
   @Inject
   LoginViewModel(GoogleSignInService service) {
@@ -75,7 +76,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
         .completeSignIn(result)
         .subscribe(
             account::postValue,
-            (throwable -> postThrowable(throwable, signInThrowable)),
+            (throwable) -> postThrowable(throwable, signInThrowable),
             pending
         );
   }
@@ -83,11 +84,12 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
   public void signOut() {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
-    service
+    Disposable disposable = service
         .signOut()
         .doFinally(() -> account.postValue(null))
         .doOnError((throwable) -> postThrowable(throwable, signInThrowable))
         .subscribe();
+    pending.add(disposable);
   }
 
   private void postThrowable(

@@ -43,10 +43,10 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  SecurityFilterChain provideFilterChain(HttpSecurity security) throws Exception{
+  SecurityFilterChain provideFilterChain(HttpSecurity security) throws Exception {
     return security
-        .sessionManagement((configurer) -> configurer
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .sessionManagement((configurer) ->
+            configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
         .oauth2ResourceServer((customizer) ->
             customizer.jwt((jwt) -> jwt.jwtAuthenticationConverter(converter)))
@@ -54,7 +54,7 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  JwtDecoder provideDecorder() {
+  JwtDecoder provideDecoder() {
     NimbusJwtDecoder decoder = JwtDecoders.fromIssuerLocation(issuerUri);
     OAuth2TokenValidator<Jwt> audienceValidator =
         new JwtClaimValidator<List<String>>(JwtClaimNames.AUD, (aud) -> aud.contains(clientId));
@@ -62,7 +62,7 @@ public class SecurityConfiguration {
     OAuth2TokenValidator<Jwt> combinedValidator =
         new DelegatingOAuth2TokenValidator<>(audienceValidator, issuerValidator);
     decoder.setJwtValidator(combinedValidator);
-  return decoder;
+    return decoder;
   }
 
 }

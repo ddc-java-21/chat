@@ -7,8 +7,6 @@ public interface AbstractUserService {
 
   User getOrAddUser(String oauthKey, User profile);
 
-
-
   User getCurrentUser();
 
   User getUser(User requestor, UUID key);

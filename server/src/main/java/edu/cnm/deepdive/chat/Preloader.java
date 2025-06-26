@@ -21,7 +21,7 @@ public class Preloader implements CommandLineRunner {
   private final String preloadFile;
 
   @Autowired
-  public Preloader(ChannelRepository repository,
+  Preloader(ChannelRepository repository,
       @Value("${chat.preload.file}") String preloadFile) {
     this.repository = repository;
     this.preloadFile = preloadFile;
@@ -30,9 +30,9 @@ public class Preloader implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     Resource channelData = new ClassPathResource(preloadFile);
-    try (InputStream inputStream = channelData.getInputStream()) {
+    try (InputStream input = channelData.getInputStream()) {
       ObjectMapper mapper = new ObjectMapper();
-      Channel[] channels = mapper.readValue(inputStream, Channel[].class);
+      Channel[] channels = mapper.readValue(input, Channel[].class);
       repository.saveAll(Arrays.asList(channels));
     }
   }

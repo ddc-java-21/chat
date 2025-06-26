@@ -36,6 +36,7 @@ public class MainFragment extends Fragment implements MenuProvider {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
     FragmentActivity activity = requireActivity();
     viewModel = new ViewModelProvider(activity).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
@@ -56,13 +57,10 @@ public class MainFragment extends Fragment implements MenuProvider {
     menuInflater.inflate(R.menu.main_options, menu);
   }
 
-  // If return true then handled it but if false is they pass it along to other handlers
   @Override
   public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
     boolean handled = false;
-    // Only need to get true if menuItemSelected is something we're interested in
     if (menuItem.getItemId() == R.id.sign_out) {
-      // Use the viewModel to interact from the UI to the bottom layers of the architecture fragments
       viewModel.signOut();
     }
     return handled;

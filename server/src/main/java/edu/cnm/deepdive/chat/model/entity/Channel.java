@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,7 +48,7 @@ public class Channel {
   private Instant created;
 
   @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
+      cascade = CascadeType.ALL,orphanRemoval = true)
   @JsonIgnore
   private final List<Message> messages = new LinkedList<>();
 
@@ -65,9 +64,8 @@ public class Channel {
     return title;
   }
 
-  public Channel setTitle(String title) {
+  public void setTitle(String title) {
     this.title = title;
-    return this;
   }
 
   public Instant getCreated() {
@@ -77,7 +75,6 @@ public class Channel {
   public List<Message> getMessages() {
     return messages;
   }
-
 
   @Override
   public int hashCode() {
@@ -96,7 +93,6 @@ public class Channel {
     }
     return comparison;
   }
-
 
   @PrePersist
   void generateFieldValues() {

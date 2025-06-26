@@ -42,7 +42,7 @@ public class PreLoginFragment extends Fragment {
         });
     viewModel
         .getRefreshThrowable()
-        .observe(owner, throwable -> {
+        .observe(owner, (throwable) -> {
           if (throwable != null) {
             Navigation.findNavController(root)
                 .navigate(PreLoginFragmentDirections.showLogin());
@@ -56,4 +56,5 @@ public class PreLoginFragment extends Fragment {
     root = null;
     super.onDestroyView();
   }
+
 }

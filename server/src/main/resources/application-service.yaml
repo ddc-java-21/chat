@@ -1,17 +1,22 @@
 server:
   error:
     include-message: always
+
   forward-headers-strategy: framework
+
   port: 28982
+
   servlet:
     context-path: /chat
 
 spring:
   application:
     name: service
+
   jackson:
     deserialization:
       accept-float-as-int: false
+
   security:
     oauth2:
       resourceserver:

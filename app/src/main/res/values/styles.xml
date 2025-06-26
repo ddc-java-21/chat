@@ -15,19 +15,15 @@
   limitations under the License.
 -->
 <resources>
-
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
     <!-- TODO Customize your theme here. -->
-<!--In a style the name of the item has to be one of the attribute themes,
-    Name is unique in the item but the parent reference is a predefined style you already made-->
     <item name="toolbarElevation">@dimen/toolbar_elevation</item>
-    <item name="toolbarStyle">@style/Widget.ToolBar</item>
+    <item name="toolbarStyle">@style/Widget.Toolbar</item>
     <item name="appBarLayoutStyle">@style/Widget.AppBarLayout</item>
   </style>
 
-<!--Inheriting from a parent takes precedent over inheriting from the name-->
-  <style name="Widget.ToolBar" parent="Widget.Material3.Toolbar">
+  <style name="Widget.Toolbar" parent="Widget.Material3.Toolbar">
     <item name="android:background">?attr/colorSurfaceVariant</item>
     <item name="android:elevation">?attr/toolbarElevation</item>
     <item name="android:minHeight">?attr/actionBarSize</item>
