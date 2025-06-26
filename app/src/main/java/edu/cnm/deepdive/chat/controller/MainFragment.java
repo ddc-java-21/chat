@@ -19,12 +19,12 @@ import androidx.navigation.Navigation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.FragmentMainBinding;
-import edu.cnm.deepdive.chat.viewmodel.LogInViewModel;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 public class MainFragment extends Fragment implements MenuProvider {
 
   private FragmentMainBinding binding;
-  private LogInViewModel viewModel;
+  private LoginViewModel viewModel;
 
   @Nullable
   @Override
@@ -38,7 +38,7 @@ public class MainFragment extends Fragment implements MenuProvider {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     FragmentActivity activity = requireActivity();
-    viewModel = new ViewModelProvider(activity).get(LogInViewModel.class);
+    viewModel = new ViewModelProvider(activity).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()
@@ -71,8 +71,7 @@ public class MainFragment extends Fragment implements MenuProvider {
     if (account == null) {
       Navigation.findNavController(binding.getRoot())
           .navigate(MainFragmentDirections.showPreLogin());
-    }
-    else {
+    } else {
       binding.bearerToken.setText(account.getIdToken());
     }
   }

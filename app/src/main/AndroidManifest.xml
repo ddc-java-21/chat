@@ -20,7 +20,6 @@
 
   <uses-permission android:name="android.permission.INTERNET"/>
 
-
   <application
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
@@ -30,7 +29,6 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="AllowBackup,DataExtractionRules">
-
 
     <activity
       android:name=".controller.MainActivity"

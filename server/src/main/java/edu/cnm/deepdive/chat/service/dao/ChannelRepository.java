@@ -5,11 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ChannelRepository extends CrudRepository <Channel, Long> {
+public interface ChannelRepository extends CrudRepository<Channel, Long> {
 
   Optional<Channel> findByExternalKey(UUID externalKey);
 
   Iterable<Channel> getAllByOrderByTitleAsc();
-
 
 }

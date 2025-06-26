@@ -35,7 +35,7 @@ public class Channel {
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
-  @JsonProperty(access = Access.READ_ONLY, value = "key")
+  @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
   @Column(nullable = false, updatable = true, unique = true, length = 30)

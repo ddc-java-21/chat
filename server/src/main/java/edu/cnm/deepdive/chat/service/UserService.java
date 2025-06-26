@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.chat.service;
 
-import com.nimbusds.jose.proc.SecurityContext;
 import edu.cnm.deepdive.chat.model.entity.User;
 import edu.cnm.deepdive.chat.service.dao.UserRepository;
 import java.util.Optional;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class UserService implements AbstractUserService {
 
   private final UserRepository repository;
-
 
   @Autowired
   UserService(UserRepository repository) {
@@ -46,7 +44,8 @@ public class UserService implements AbstractUserService {
 
   @Override
   public User getUser(User requestor, UUID key) {
-    return repository.findByExternalKey(key)
+    return repository
+        .findByExternalKey(key)
         .orElseThrow();
   }
 
@@ -70,4 +69,5 @@ public class UserService implements AbstractUserService {
         })
         .orElseThrow();
   }
+
 }

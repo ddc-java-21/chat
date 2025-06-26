@@ -27,7 +27,6 @@ public class GoogleSignInService {
 
   private final GoogleSignInClient client;
 
-
   @Inject
   GoogleSignInService(@ApplicationContext Context context) {
     GoogleSignInOptions options = new GoogleSignInOptions.Builder()
@@ -56,8 +55,9 @@ public class GoogleSignInService {
   public Single<GoogleSignInAccount> completeSignIn(ActivityResult result) {
     return Single.create((SingleEmitter<GoogleSignInAccount> emitter) -> {
           try {
-            GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(result.getData())
-                .getResult(ApiException.class);
+            GoogleSignInAccount account =
+                GoogleSignIn.getSignedInAccountFromIntent(result.getData())
+                    .getResult(ApiException.class);
             emitter.onSuccess(account);
           } catch (ApiException e) {
             emitter.onError(e);

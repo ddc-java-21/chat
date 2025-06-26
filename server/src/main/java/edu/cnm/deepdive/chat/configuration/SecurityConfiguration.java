@@ -32,7 +32,8 @@ public class SecurityConfiguration {
   private final String clientId;
 
   @Autowired
-  SecurityConfiguration(Converter<Jwt, ? extends AbstractAuthenticationToken> converter,
+  SecurityConfiguration(
+      Converter<Jwt, ? extends AbstractAuthenticationToken> converter,
       @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUri,
       @Value("${spring.security.oauth2.resourceserver.jwt.client-id}") String clientId
   ) {
@@ -42,7 +43,7 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  public SecurityFilterChain provideFilterChain(HttpSecurity security) throws Exception {
+  SecurityFilterChain provideFilterChain(HttpSecurity security) throws Exception {
     return security
         .sessionManagement((configurer) ->
             configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -63,4 +64,5 @@ public class SecurityConfiguration {
     decoder.setJwtValidator(combinedValidator);
     return decoder;
   }
+
 }

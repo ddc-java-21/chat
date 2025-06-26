@@ -6,7 +6,6 @@ import edu.cnm.deepdive.chat.service.dao.ChannelRepository;
 import edu.cnm.deepdive.chat.service.dao.MessageRepository;
 import java.time.Instant;
 import java.util.UUID;
-import org.apache.logging.log4j.CloseableThreadContext.Instance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,8 @@ public class MessageService implements AbstractMessageService {
   private final ChannelRepository channelRepository;
 
   @Autowired
-  public MessageService(MessageRepository repository, ChannelRepository channelRepository) {
-    this.messageRepository = repository;
+  MessageService(MessageRepository messageRepository, ChannelRepository channelRepository) {
+    this.messageRepository = messageRepository;
     this.channelRepository = channelRepository;
   }
 
@@ -29,7 +28,7 @@ public class MessageService implements AbstractMessageService {
     return channelRepository
         .findByExternalKey(channelKey)
         .map(messageRepository::findByChannelOrderByPostedAsc)
-            .orElseThrow();
+        .orElseThrow();
   }
 
   @Override
@@ -52,4 +51,5 @@ public class MessageService implements AbstractMessageService {
         })
         .orElseThrow();
   }
+
 }

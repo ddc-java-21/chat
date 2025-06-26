@@ -30,7 +30,7 @@ public class Preloader implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     Resource channelData = new ClassPathResource(preloadFile);
-    try(InputStream input = channelData.getInputStream()) {
+    try (InputStream input = channelData.getInputStream()) {
       ObjectMapper mapper = new ObjectMapper();
       Channel[] channels = mapper.readValue(input, Channel[].class);
       repository.saveAll(Arrays.asList(channels));

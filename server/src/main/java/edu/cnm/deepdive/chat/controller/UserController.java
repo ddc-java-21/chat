@@ -30,18 +30,19 @@ public class UserController {
 
   @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public User get() {
-    return service.getCurrentUser();
+    return service.getMe(service.getCurrentUser());
   }
 
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public User get(@PathVariable UUID key){
+  public User get(@PathVariable UUID key) {
     return service.getUser(service.getCurrentUser(), key);
   }
 
-  @PutMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(path = "/me",
+      consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public User updateMe(@Valid @RequestBody User delta) {
     return service.updateMe(service.getCurrentUser(), delta);
   }
-  // TODO: 6/26/2025 Implement additional controller methods for users. 
 
+  // TODO: 6/26/25 Implement additional controller methods for users.
 }

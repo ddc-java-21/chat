@@ -9,7 +9,7 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          schema_generation:
+          schema-generation:
             script:
               append: false
 

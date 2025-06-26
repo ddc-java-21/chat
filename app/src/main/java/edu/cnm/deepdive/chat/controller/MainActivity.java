@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setUpUI();
-    setUpNavigation();
+    setupUI();
+    setupNavigation();
   }
 
   @Override
@@ -38,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
     return NavigationUI.navigateUp(navController, appBarConfig);
   }
 
-  private void setUpUI() {
+  private void setupUI() {
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     EdgeToEdge.enable(this);
     ViewCompat.setOnApplyWindowInsetsListener(binding.navHostFragment, MainActivity::adjustInsets);
     setContentView(binding.getRoot());
   }
 
-  private void setUpNavigation() {
+  private void setupNavigation() {
     setSupportActionBar(binding.toolbar);
-    appBarConfig = new AppBarConfiguration.Builder
-        (R.id.pre_login_fragment, R.id.login_fragment, R.id.main_fragment)
+    appBarConfig = new AppBarConfiguration.Builder(
+        R.id.pre_login_fragment, R.id.login_fragment, R.id.main_fragment)
         .build();
     NavHostFragment host = binding.navHostFragment.getFragment();
     navController = host.getNavController();
@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @NonNull
-  private static WindowInsetsCompat adjustInsets(@NonNull View view, @NonNull WindowInsetsCompat windowInsets) {
+  private static WindowInsetsCompat adjustInsets(
+      @NonNull View view, @NonNull WindowInsetsCompat windowInsets) {
     Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
     MarginLayoutParams mlp = (MarginLayoutParams) view.getLayoutParams();
     mlp.leftMargin = insets.left;
@@ -65,6 +66,5 @@ public class MainActivity extends AppCompatActivity {
     view.setLayoutParams(mlp);
     return WindowInsetsCompat.CONSUMED;
   }
-
 
 }

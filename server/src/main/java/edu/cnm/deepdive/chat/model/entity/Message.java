@@ -40,10 +40,9 @@ public class Message {
   @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
-
   @NotBlank
   @Length(max = MAX_MESSAGE_LENGTH)
-  @Column(nullable = false, updatable = false)
+  @Column(nullable = false, updatable = false, length = MAX_MESSAGE_LENGTH)
   private String text;
 
   @CreationTimestamp
@@ -94,9 +93,8 @@ public class Message {
     return channel;
   }
 
-  public Message setChannel(Channel channel) {
+  public void setChannel(Channel channel) {
     this.channel = channel;
-    return this;
   }
 
   @Override

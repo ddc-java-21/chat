@@ -13,8 +13,8 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
   Iterable<Message> findByChannelOrderByPostedAsc(Channel channel);
 
-  // This is included to show JPQL implementation of a Spring Data inferred query
-  //  @Query("SELECT m FROM Message AS m WHERE m.channel = :channel AND m.posted > :cutoff")
- Iterable<Message> findByChannelAndPostedAfterOrderByPostedAsc(Channel channel, Instant cutoff);
+//  This is included to show a JPQL implementation of a Spring Data inferred query.
+//  @Query("SELECT m FROM Message AS m WHERE m.channel = :channel AND m.posted > :cutoff")
+  Iterable<Message> findByChannelAndPostedAfterOrderByPostedAsc(Channel channel, Instant cutoff);
 
 }

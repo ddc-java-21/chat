@@ -26,7 +26,6 @@ import org.hibernate.validator.constraints.Length;
 @Table(
     name = "user_profile"
 )
-
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"key", "displayName", "avatar", "created"})
 public class User {
@@ -47,7 +46,6 @@ public class User {
   @Column(nullable = false, updatable = false, length = MAX_OAUTH_KEY_LENGTH, unique = true)
   @JsonIgnore
   private String oauthKey;
-
 
   @NotBlank
   @Length(max = MAX_DISPLAY_NAME_LENGTH)

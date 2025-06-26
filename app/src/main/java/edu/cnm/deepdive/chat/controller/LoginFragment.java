@@ -17,13 +17,13 @@ import com.google.android.material.snackbar.Snackbar;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.FragmentLoginBinding;
-import edu.cnm.deepdive.chat.viewmodel.LogInViewModel;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 @AndroidEntryPoint
 public class LoginFragment extends Fragment {
 
   private FragmentLoginBinding binding;
-  private LogInViewModel viewModel;
+  private LoginViewModel viewModel;
   private ActivityResultLauncher<Intent> launcher;
 
   @Nullable
@@ -38,7 +38,7 @@ public class LoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(LogInViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()
@@ -49,18 +49,20 @@ public class LoginFragment extends Fragment {
           }
         });
     viewModel
-        .getRefreshThrowable()
-        .observe(owner, (throwable -> {
+        .getSignInThrowable()
+        .observe(owner, (throwable) -> {
           if (throwable != null) {
-            Snackbar.make(binding.getRoot(), getString(R.string.sign_in_failure_message), Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.getRoot(), R.string.sign_in_failure_message, Snackbar.LENGTH_LONG)
                 .show();
           }
-        }));
-    launcher = registerForActivityResult(new StartActivityForResult(), viewModel ::completeSignIn);
+        });
+    launcher = registerForActivityResult(new StartActivityForResult(), viewModel::completeSignIn);
   }
 
   @Override
   public void onDestroyView() {
+    binding = null;
     super.onDestroyView();
   }
+
 }

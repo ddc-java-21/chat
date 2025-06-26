@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.R;
-import edu.cnm.deepdive.chat.viewmodel.LogInViewModel;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 @AndroidEntryPoint
-public class PreLoginFragment  extends Fragment {
+public class PreLoginFragment extends Fragment {
 
   private View root;
 
@@ -30,7 +30,7 @@ public class PreLoginFragment  extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    LogInViewModel viewModel = new ViewModelProvider(requireActivity()).get(LogInViewModel.class);
+    LoginViewModel viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()
@@ -42,12 +42,12 @@ public class PreLoginFragment  extends Fragment {
         });
     viewModel
         .getRefreshThrowable()
-        .observe(owner, (throwable -> {
+        .observe(owner, (throwable) -> {
           if (throwable != null) {
             Navigation.findNavController(root)
                 .navigate(PreLoginFragmentDirections.showLogin());
           }
-        }));
+        });
     viewModel.refresh();
   }
 
@@ -56,4 +56,5 @@ public class PreLoginFragment  extends Fragment {
     root = null;
     super.onDestroyView();
   }
+
 }
