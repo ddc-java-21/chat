@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/nav_graph"
+  app:startDestination="@id/pre_login_fragment">
+
+  <fragment
+    android:id="@+id/pre_login_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.PreLoginFragment"
+    tools:layout="@layout/fragment_pre_login">
+
+    <action
+      android:id="@+id/show_login"
+      app:destination="@id/login_fragment"
+      app:popUpTo="@id/nav_graph"/>
+
+    <action
+      android:id="@+id/show_list"
+      app:destination="@id/main_fragment"
+      app:popUpTo="@id/nav_graph"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/login_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.LoginFragment"
+    android:label="Sign in to Notes"
+    tools:layout="@layout/fragment_login">
+    <action
+      android:id="@+id/show_list"
+      app:destination="@id/main_fragment"
+      app:popUpTo="@id/nav_graph"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/main_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.MainFragment"
+    tools:layout="@layout/fragment_main">
+
+    <action
+      android:id="@+id/show_pre_login"
+      app:destination="@id/pre_login_fragment"/>
+  </fragment>
+
+
+  <!--  TODO Add Silent sign-in, sign in, note detail and other req'd fragments and actions-->
+
+</navigation>
