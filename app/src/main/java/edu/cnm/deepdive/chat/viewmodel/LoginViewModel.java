@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.cnm.deepdive.chat.service.GoogleSignInService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import javax.inject.Inject;
 
 /** @noinspection deprecation*/
@@ -81,11 +82,12 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
   public void signOut() {
     refreshThrowable.setValue(null);
     signInThrowable.setValue(null);
-    service
+    Disposable disposable = service
         .signOut()
         .doFinally(() -> account.postValue(null)) // doesn't happen in order: doFinally doesn't execute until the stream is done
         .doOnError((throwable) -> postThrowable(throwable, signInThrowable))
         .subscribe();
+    pending.add(disposable);
   }
 
   private void postThrowable(

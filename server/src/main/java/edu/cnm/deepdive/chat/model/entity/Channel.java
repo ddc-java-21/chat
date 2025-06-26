@@ -3,7 +3,10 @@ package edu.cnm.deepdive.chat.model.entity;
 import static com.fasterxml.jackson.annotation.JsonProperty.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,8 +23,10 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
+@SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"key", "title", "created"})
 public class Channel {
 
   @Id
@@ -31,7 +36,7 @@ public class Channel {
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
-  @JsonProperty( value = "key", access = Access.READ_ONLY)
+  @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
   @Column(nullable = false, updatable = true, unique = true, length = 30)

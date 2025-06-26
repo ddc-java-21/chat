@@ -1,5 +1,10 @@
 package edu.cnm.deepdive.chat.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,8 +21,9 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
+@SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
+@JsonInclude(Include.NON_NULL)
 public class Message {
 
   private static final int MAX_MESSAGE_LENGTH = 255;
@@ -25,9 +31,11 @@ public class Message {
   @Id
   @GeneratedValue
   @Column(name = "message_id", nullable = false, updatable = false)
+  @JsonIgnore
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
+  @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
   @NotBlank
@@ -38,14 +46,17 @@ public class Message {
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_ONLY)
   private Instant posted;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "author_id", nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_ONLY)
   private User author;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "channel_id", nullable = false, updatable = false)
+  @JsonIgnore
   private Channel channel;
 
   public long getId() {
