@@ -26,7 +26,7 @@ public class JwtConverter implements Converter<Jwt, UsernamePasswordAuthenticati
         Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     User user = new User();
     user.setDisplayName(source.getClaimAsString("name"));
-    // TODO: 6/26/25 Add avatar
+    user.setAvatar(source.getClaimAsURL("picture"));
     user.setOauthKey(source.getSubject());
     user = userService.getOrAddUser(source.getSubject(), user);
     return new UsernamePasswordAuthenticationToken(user, source.getTokenValue(), grants);

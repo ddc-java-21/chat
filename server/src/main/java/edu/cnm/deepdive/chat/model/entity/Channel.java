@@ -1,8 +1,11 @@
 package edu.cnm.deepdive.chat.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,8 +23,10 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
+@SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"key", "title", "created"})
 public class Channel {
 
   @Id
@@ -60,9 +65,8 @@ public class Channel {
     return title;
   }
 
-  public Channel setTitle(String title) {
+  public void setTitle(String title) {
     this.title = title;
-    return this;
   }
 
   public Instant getCreated() {
@@ -73,7 +77,23 @@ public class Channel {
     return messages;
   }
 
-  // TODO: 6/24/25 Implement hashCode and equals.
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean comparison;
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof Channel other) {
+      comparison = (this.id != 0 && this.id == other.id);
+    } else {
+      comparison = false;
+    }
+    return comparison;
+  }
 
   @PrePersist
   void generateFieldValues() {
