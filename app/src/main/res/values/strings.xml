@@ -1,0 +1,5 @@
+<resources>
+  <string name="login_fragment_label">Sign in to Chat</string>
+  <string name="sign_in_failure_message">Unable to sign in with provided credentials.</string>
+  <string name="sign_out_title">Sign Out</string>
+</resources>
