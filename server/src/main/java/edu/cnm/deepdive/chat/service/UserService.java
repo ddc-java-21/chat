@@ -23,7 +23,7 @@ public class UserService implements AbstractUserService {
   }
 
   @Override
-  public User getOrAddUser(String oauthKey, String displayName, User profile) {
+  public User getOrAddUser(String oauthKey, User profile) {
     return repository
         .findByOauthKey(oauthKey)
         .or(() -> {
