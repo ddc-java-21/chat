@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.R;
-import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModelFix;
 
 @AndroidEntryPoint
 public class PreLoginFragment extends Fragment {
@@ -30,7 +30,7 @@ public class PreLoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    LoginViewModel viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+    LoginViewModelFix viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModelFix.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()

@@ -17,13 +17,13 @@ import com.google.android.material.snackbar.Snackbar;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.FragmentLoginBinding;
-import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModelFix;
 
 @AndroidEntryPoint
 public class LoginFragment extends Fragment {
 
   private FragmentLoginBinding binding;
-  private LoginViewModel viewModel;
+  private LoginViewModelFix viewModel;
   private ActivityResultLauncher<Intent> launcher;
 
   @Nullable
@@ -38,7 +38,7 @@ public class LoginFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModelFix.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
         .getAccount()
