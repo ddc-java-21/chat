@@ -20,9 +20,9 @@ import javax.inject.Inject;
  * @noinspection deprecation
  */
 @HiltViewModel
-public class LoginViewModelFix extends ViewModel implements DefaultLifecycleObserver {
+public class LoginViewModel extends ViewModel implements DefaultLifecycleObserver {
 
-  private static final String TAG = LoginViewModelFix.class.getSimpleName();
+  private static final String TAG = LoginViewModel.class.getSimpleName();
 
   private final GoogleSignInService service;
   private final MutableLiveData<GoogleSignInAccount> account;
@@ -31,7 +31,7 @@ public class LoginViewModelFix extends ViewModel implements DefaultLifecycleObse
   private final CompositeDisposable pending;
 
   @Inject
-  LoginViewModelFix(GoogleSignInService service) {
+  LoginViewModel(GoogleSignInService service) {
     this.service = service;
     account = new MutableLiveData<>();
     refreshThrowable = new MutableLiveData<>();
