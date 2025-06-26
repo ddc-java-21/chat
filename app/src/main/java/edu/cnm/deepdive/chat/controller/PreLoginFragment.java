@@ -11,8 +11,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import dagger.hilt.android.AndroidEntryPoint;
-import edu.cnm.deepdive.notes.R;
-import edu.cnm.deepdive.notes.viewmodel.LogInViewModel;
+import edu.cnm.deepdive.chat.R;
+import edu.cnm.deepdive.chat.viewmodel.LogInViewModel;
 
 @AndroidEntryPoint
 public class PreLoginFragment  extends Fragment {

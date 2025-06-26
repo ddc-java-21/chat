@@ -35,6 +35,7 @@
   <fragment
     android:id="@+id/main_fragment"
     android:name="edu.cnm.deepdive.chat.controller.MainFragment"
+    android:label="@string/main_fragment_label"
     tools:layout="@layout/fragment_main">
 
     <action

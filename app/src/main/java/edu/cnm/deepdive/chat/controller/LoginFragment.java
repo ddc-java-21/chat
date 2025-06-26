@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.google.android.material.snackbar.Snackbar;
 import dagger.hilt.android.AndroidEntryPoint;
-import edu.cnm.deepdive.notes.R;
-import edu.cnm.deepdive.notes.databinding.FragmentLoginBinding;
-import edu.cnm.deepdive.notes.viewmodel.LogInViewModel;
+import edu.cnm.deepdive.chat.R;
+import edu.cnm.deepdive.chat.databinding.FragmentLoginBinding;
+import edu.cnm.deepdive.chat.viewmodel.LogInViewModel;
 
 @AndroidEntryPoint
 public class LoginFragment extends Fragment {
