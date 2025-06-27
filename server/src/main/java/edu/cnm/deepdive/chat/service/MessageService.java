@@ -52,4 +52,12 @@ public class MessageService implements AbstractMessageService {
         .orElseThrow();
   }
 
+  @Override
+  public Message get(UUID channelKey, UUID messageKey) {
+    return channelRepository
+        .findByExternalKey(channelKey)
+        .flatMap((channel) -> messageRepository.findByChannelAndExternalKey(channel, messageKey))
+        .orElseThrow();
+  }
+
 }
