@@ -13,4 +13,6 @@ public interface AbstractMessageService {
 
   Message add(User author, UUID channelKey, Message message);
 
+  Message get(UUID channelKey, UUID messageKey);
+
 }
