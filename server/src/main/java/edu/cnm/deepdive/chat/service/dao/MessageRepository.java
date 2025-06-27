@@ -11,6 +11,8 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
 
   Optional<Message> findByExternalKey(UUID externalKey);
 
+  Optional<Message> findByChannelAndExternalKey(Channel channel, UUID externalKey);
+
   Iterable<Message> findByChannelOrderByPostedAsc(Channel channel);
 
 //  This is included to show a JPQL implementation of a Spring Data inferred query.
