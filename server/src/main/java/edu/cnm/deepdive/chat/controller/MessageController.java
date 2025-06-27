@@ -3,7 +3,6 @@ package edu.cnm.deepdive.chat.controller;
 import edu.cnm.deepdive.chat.model.entity.Message;
 import edu.cnm.deepdive.chat.service.AbstractMessageService;
 import edu.cnm.deepdive.chat.service.AbstractUserService;
-import edu.cnm.deepdive.chat.service.MessageService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.time.Instant;
