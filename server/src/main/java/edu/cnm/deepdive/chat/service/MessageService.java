@@ -24,6 +24,14 @@ public class MessageService implements AbstractMessageService {
   }
 
   @Override
+  public Message get(UUID channelKey, UUID messageKey) {
+    return channelRepository
+        .findByExternalKey(channelKey)
+        .flatMap((channel) -> messageRepository.findByChannelAndExternalKey(channel, messageKey))
+        .orElseThrow();
+  }
+
+  @Override
   public Iterable<Message> getAllInChannel(UUID channelKey) {
     return channelRepository
         .findByExternalKey(channelKey)

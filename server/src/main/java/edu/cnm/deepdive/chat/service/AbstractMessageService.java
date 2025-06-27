@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface AbstractMessageService {
 
+  Message get(UUID channelKey, UUID messageKey);
   Iterable<Message> getAllInChannel(UUID channelKey);
 
   Iterable<Message> getAllInChannelSince(UUID channelKey, Instant cutoff);
