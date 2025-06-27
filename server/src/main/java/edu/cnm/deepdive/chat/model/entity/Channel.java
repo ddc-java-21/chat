@@ -1,5 +1,11 @@
 package edu.cnm.deepdive.chat.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,16 +22,20 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
+@SuppressWarnings({"JpaDataSourceORMInspection", "RedundantSuppression"})
 @Entity
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"key", "title", "created"})
 public class Channel {
 
   @Id
   @GeneratedValue
   @Column(name = "channel_id", nullable = false, updatable = false)
+  @JsonIgnore
   private long id;
 
   @Column(nullable = false, updatable = false, unique = true)
+  @JsonProperty(value = "key", access = Access.READ_ONLY)
   private UUID externalKey;
 
   @Column(nullable = false, updatable = true, unique = true, length = 30)
@@ -34,10 +44,12 @@ public class Channel {
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_ONLY)
   private Instant created;
 
   @OneToMany(mappedBy = "channel", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,orphanRemoval = true)
+  @JsonIgnore
   private final List<Message> messages = new LinkedList<>();
 
   public long getId() {
@@ -52,9 +64,8 @@ public class Channel {
     return title;
   }
 
-  public Channel setTitle(String title) {
+  public void setTitle(String title) {
     this.title = title;
-    return this;
   }
 
   public Instant getCreated() {
@@ -65,7 +76,23 @@ public class Channel {
     return messages;
   }
 
-  // TODO: 6/24/25 Implement hashCode and equals.
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean comparison;
+    if (this == obj) {
+      comparison = true;
+    } else if (obj instanceof Channel other) {
+      comparison = (this.id != 0 && this.id == other.id);
+    } else {
+      comparison = false;
+    }
+    return comparison;
+  }
 
   @PrePersist
   void generateFieldValues() {
