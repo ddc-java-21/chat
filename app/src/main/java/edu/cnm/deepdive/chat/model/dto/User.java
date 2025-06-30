@@ -31,17 +31,15 @@ public class User {
     return displayName;
   }
 
-  public User setDisplayName(String displayName) {
+  public void setDisplayName(String displayName) {
     this.displayName = displayName;
-    return this;
   }
 
   public URL getAvatar() {
     return avatar;
   }
 
-  public User setAvatar(URL avatar) {
+  public void setAvatar(URL avatar) {
     this.avatar = avatar;
-    return this;
   }
 }
