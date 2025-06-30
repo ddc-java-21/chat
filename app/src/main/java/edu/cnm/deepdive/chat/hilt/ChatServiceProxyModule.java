@@ -79,5 +79,4 @@ public class ChatServiceProxyModule {
         .create(ChatServiceLongPollingProxy.class);
   }
 
-
 }
