@@ -55,7 +55,7 @@ public class ChatServiceProxyModule {
   @Provides
   @Singleton
   ChatServiceProxy provideProxy(@ApplicationContext Context context, Gson gson, Interceptor interceptor) {
-    OkHttpClient.Builder client = new OkHttpClient.Builder()
+    OkHttpClient client = new OkHttpClient.Builder()
         .addInterceptor(interceptor)
         .build();
     return new Retrofit.Builder()
@@ -70,13 +70,14 @@ public class ChatServiceProxyModule {
   @Provides
   @Singleton
   ChatServiceLongPollingProxy provideLongPollingProxy(
-      @ApplicationContext Context context, Gson gson, OkHttpClient client) {
+      @ApplicationContext Context context, Gson gson, Interceptor interceptor) {
     OkHttpClient client = new OkHttpClient.Builder()
         .addInterceptor(interceptor)
         .connectTimeout(Duration.ZERO)
         .writeTimeout(Duration.ZERO)
         .readTimeout(Duration.ZERO)
         .callTimeout(MAX_CALL_DURATION)
+        .build();
     return new Retrofit.Builder()
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
