@@ -8,11 +8,11 @@
     android:checkableBehavior="single"/>
 
   <group
-    android:id="@+id/basic_action"
+    android:id="@+id/basic_actions"
     android:checkableBehavior="none">
 
     <item
-      android:id="@+id/Settings"
+      android:id="@+id/settings_fragment"
       android:title="@string/settings_title"
       app:showAsAction="never"
       android:icon="@drawable/settings"/>

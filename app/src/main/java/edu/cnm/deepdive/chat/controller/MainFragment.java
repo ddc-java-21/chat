@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.databinding.FragmentMainBinding;
@@ -49,10 +48,7 @@ public class MainFragment extends Fragment {
 
   /** @noinspection deprecation*/
   private void handleAccount(GoogleSignInAccount account) {
-    if (account == null) {
-      Navigation.findNavController(binding.getRoot())
-          .navigate(MainFragmentDirections.showPreLogin());
-    } else {
+    if (account != null) {
       binding.bearerToken.setText(account.getIdToken());
     }
   }
