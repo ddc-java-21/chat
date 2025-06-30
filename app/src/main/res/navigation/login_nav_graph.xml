@@ -17,8 +17,8 @@
       app:popUpTo="@id/nav_graph"/>
 
     <action
-      android:id="@+id/show_list"
-      app:destination="@id/main_fragment"
+      android:id="@+id/show_main"
+      app:destination="@id/main_activity"
       app:popUpTo="@id/nav_graph"/>
 
   </fragment>
@@ -30,23 +30,15 @@
     tools:layout="@layout/fragment_login">
 
     <action
-      android:id="@+id/show_list"
-      app:destination="@id/main_fragment"
+      android:id="@+id/show_main"
+      app:destination="@id/main_activity"
       app:popUpTo="@id/nav_graph"/>
 
   </fragment>
 
-  <fragment
-    android:id="@+id/main_fragment"
-    android:name="edu.cnm.deepdive.chat.controller.MainFragment"
-    android:label="@string/main_fragment_label"
-    tools:layout="@layout/fragment_main">
-
-    <action
-      android:id="@+id/show_pre_login"
-      app:destination="@id/pre_login_fragment"
-      app:popUpTo="@id/nav_graph"/>
-
-  </fragment>
+  <activity
+    android:id="@+id/main_activity"
+    android:name="edu.cnm.deepdive.chat.controller.MainActivity"
+    tools:layout="@layout/app_bar_main"/>
 
 </navigation>
