@@ -41,14 +41,6 @@ public class LoginFragment extends Fragment {
     viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
-        .getAccount()
-        .observe(owner, (account) -> {
-          if (account != null) {
-            Navigation.findNavController(binding.getRoot())
-                .navigate(LoginFragmentDirections.showMain());
-          }
-        });
-    viewModel
         .getSignInThrowable()
         .observe(owner, (throwable) -> {
           if (throwable != null) {

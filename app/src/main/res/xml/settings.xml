@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <SeekBarPreference
+    android:key="@string/history_cutoff_key"
+    android:title="@string/history_cutoff_title"
+    app:min="@integer/history_cutoff_min"
+    android:max="@integer/history_cutoff_max"
+    android:defaultValue="@integer/history_cutoff_default"
+    app:showSeekBarValue="true"/>
+
+</androidx.preference.PreferenceScreen>

@@ -51,10 +51,7 @@ public class MainFragment extends Fragment {
    * @noinspection deprecation
    */
   private void handleAccount(GoogleSignInAccount account) {
-    if (account == null) {
-      Navigation.findNavController(binding.getRoot())
-          .navigate(MainFragmentDirections.showPreLogin());
-    } else {
+    if (account != null) {
       binding.bearerToken.setText(account.getIdToken());
     }
   }

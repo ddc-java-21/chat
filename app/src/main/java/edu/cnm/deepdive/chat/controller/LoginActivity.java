@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.chat.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
@@ -9,13 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.ActivityNavigator.Extras;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import dagger.hilt.android.AndroidEntryPoint;
+import edu.cnm.deepdive.chat.LoginNavGraphDirections;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.ActivityLoginBinding;
+import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 @AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
@@ -31,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setupUI();
     setupNavigation();
+    setupViewModel();
   }
 
   @Override
@@ -54,6 +61,13 @@ public class LoginActivity extends AppCompatActivity {
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfig);
   }
 
+  private void setupViewModel() {
+    LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    viewModel
+        .getAccount()
+        .observe(this, this::handleAccount);
+  }
+
   @NonNull
   private static WindowInsetsCompat adjustInsets(
       @NonNull View view, @NonNull WindowInsetsCompat windowInsets) {
@@ -64,6 +78,16 @@ public class LoginActivity extends AppCompatActivity {
     mlp.rightMargin = insets.right;
     view.setLayoutParams(mlp);
     return WindowInsetsCompat.CONSUMED;
+  }
+
+  /** @noinspection deprecation*/
+  private void handleAccount(GoogleSignInAccount account) {
+    if (account != null) {
+      Extras extras = new Extras.Builder()
+          .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+          .build();
+      navController.navigate(LoginNavGraphDirections.showMain(), extras);
+    }
   }
 
 }

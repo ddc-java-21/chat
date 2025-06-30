@@ -37,6 +37,7 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
     refreshThrowable = new MutableLiveData<>();
     signInThrowable = new MutableLiveData<>();
     pending = new CompositeDisposable();
+    refresh();
   }
 
   public LiveData<GoogleSignInAccount> getAccount() {
