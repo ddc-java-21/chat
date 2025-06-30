@@ -3,23 +3,25 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/nav_graph"
+  android:id="@+id/main_nav_graph"
   app:startDestination="@id/main_fragment">
+
+  <action
+    android:id="@+id/show_login"
+    app:destination="@id/login_activity"/>
 
   <fragment
     android:id="@+id/main_fragment"
     android:name="edu.cnm.deepdive.chat.controller.MainFragment"
     android:label="@string/main_fragment_label"
-    tools:layout="@layout/fragment_main">
-
-    <action
-      android:id="@+id/show_pre_login"
-      app:destination="@id/login_activity"
-      app:popUpTo="@id/nav_graph"/>
-
-  </fragment>
+    tools:layout="@layout/fragment_main"/>
 
 <!-- TODO Add fragment element for channel, settings, and other fragments (as necessary). -->
+
+  <fragment
+    android:id="@+id/settings_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.SettingsFragment"
+    android:label="@string/settings_fragment_label"/>
 
   <activity
     android:id="@+id/login_activity"
