@@ -12,8 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ActivityNavigator;
+import androidx.navigation.ActivityNavigator.Extras;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigator.Extras;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
   /** @noinspection deprecation*/
   private void handleAccount(GoogleSignInAccount account) {
     if (account != null) {
-      Extras extras = new ActivityNavigator.Extras.Builder()
+      Extras extras = new Extras.Builder()
           .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
           .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
           .build();

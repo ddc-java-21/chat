@@ -1,0 +1,25 @@
+package edu.cnm.deepdive.chat.model.dto;
+
+import com.google.gson.annotations.Expose;
+import java.time.Instant;
+import java.util.UUID;
+
+public class Channel {
+
+  @Expose(serialize = false)
+  private final UUID key = null;
+
+  @Expose(serialize = false)
+  private final String title = null;
+
+  @Expose(serialize = false)
+  private final Instant created = null;
+
+  public UUID getKey() {
+    return key;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+}
