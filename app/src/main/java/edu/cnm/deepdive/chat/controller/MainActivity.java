@@ -2,6 +2,7 @@ package edu.cnm.deepdive.chat.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import androidx.annotation.NonNull;
@@ -19,15 +20,19 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.MainNavGraphDirections;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.chat.viewmodel.ChatViewModel;
 import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+  private static final String TAG = MainActivity.class.getSimpleName();
+
   private ActivityMainBinding binding;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel loginViewModel;
+  private ChatViewModel chatViewModel;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
     loginViewModel
         .getAccount()
         .observe(this, this::handleAccount);
+    chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+    chatViewModel
+        .getCurrentUser()
+        .observe(this, (user) -> {
+          Log.d(TAG, user.toString());
+        });
+    chatViewModel
+        .getChannels()
+        .observe(this, (channels) -> {
+          Log.d(TAG, channels.toString());
+        });
   }
 
   /** @noinspection deprecation*/
