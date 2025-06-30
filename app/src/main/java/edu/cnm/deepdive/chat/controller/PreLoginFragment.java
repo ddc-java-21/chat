@@ -37,7 +37,7 @@ public class PreLoginFragment extends Fragment {
         .observe(owner, (account) -> {
           if (account != null) {
             Navigation.findNavController(root)
-                .navigate(PreLoginFragmentDirections.showList());
+                .navigate(PreLoginFragmentDirections.showMain());
           }
         });
     viewModel
