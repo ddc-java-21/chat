@@ -32,6 +32,8 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     channels = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
+    fetchCurrentUser();
+    fetchChannels();
   }
 
   public LiveData<User> getCurrentUser() {
