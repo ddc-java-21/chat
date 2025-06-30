@@ -2,6 +2,7 @@ package edu.cnm.deepdive.chat.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,15 +17,18 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.MainNavGraphDirections;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.chat.viewmodel.ChatViewModel;
 import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+  private static final String TAG = MainActivity.class.getSimpleName();
   private ActivityMainBinding binding;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel loginViewModel;
+  private ChatViewModel chatViewModel;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,11 +74,24 @@ public class MainActivity extends AppCompatActivity {
     loginViewModel
         .getAccount()
         .observe(this, this::handleAccount);
+    chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+    chatViewModel
+        .getCurrentUser()
+        .observe(this, (user) -> {
+          Log.d(TAG, user.toString());
+        });
+    chatViewModel
+        .getChannels()
+        .observe(this, channels -> {
+          Log.d(TAG, channels.toString());
+        });
   }
 
-  /** @noinspection deprecation*/
+  /**
+   * @noinspection deprecation
+   */
   private void handleAccount(GoogleSignInAccount account) {
-    if(account ==null){
+    if (account == null) {
       Extras extras = new Extras.Builder()
           .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
           .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
