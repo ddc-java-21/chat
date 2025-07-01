@@ -10,13 +10,35 @@
     android:id="@+id/show_login"
     app:destination="@id/login_activity"/>
 
+  <action
+    android:id="@+id/show_channel"
+    app:destination="@id/channel_fragment"
+    app:popUpTo="@id/main_nav_graph">
+
+    <argument
+      android:name="channel"
+      app:argType="edu.cnm.deepdive.chat.model.dto.Channel"/>
+
+  </action>
+
   <fragment
     android:id="@+id/main_fragment"
     android:name="edu.cnm.deepdive.chat.controller.MainFragment"
-    android:label="@string/main_fragment_label"
+    android:label= "@string/main_fragment_label"
     tools:layout="@layout/fragment_main"/>
 
 <!--  TODO Add fragment element for channel, settings, and other fragments (as necessary).-->
+
+  <fragment
+    android:id="@+id/channel_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.ChannelFragment"
+    tools:layout="@layout/fragment_channel">
+
+    <argument
+      android:name="channel"
+      app:argType="edu.cnm.deepdive.chat.model.dto.Channel"/>
+
+  </fragment>
 
   <fragment
     android:id="@+id/settings_fragment"
