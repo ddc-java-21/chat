@@ -1,6 +1,20 @@
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          client-id: 102044767904-op10vnb1ni3ltb63sd2ok8sdk6uullol.apps.googleusercontent.com
+  application:
+    name: chat
+
+  profiles:
+    active:
+      - service
+      - local
+
+  datasource:
+    url: "jdbc:h2:file:./db/chat"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
