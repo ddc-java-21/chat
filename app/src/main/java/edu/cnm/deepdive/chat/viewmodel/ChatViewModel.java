@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.chat.viewmodel;
 
-import android.service.autofill.Transformation;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
@@ -16,6 +15,7 @@ import edu.cnm.deepdive.chat.model.dto.User;
 import edu.cnm.deepdive.chat.service.ChatService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -39,30 +39,15 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     this.chatService = chatService;
     currentUser = new MutableLiveData<>();
     selectedChannel = new MutableLiveData<>();
-    messages = new MutableLiveData<>();
+    messages = new MutableLiveData<>(new ArrayList<>());
     channels = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     fetchCurrentUser();
     fetchChannels();
-    getSelectedChannel()
-        .observeForever((channel) -> {
-          if (subscription != null && !subscription.isDisposed()) {
-            subscription.dispose();
-          }
-          subscription = chatService
-              .getMessages(channel)
-              .subscribe(
-                  (msgs) -> {
-                    // TODO: 7/1/25 Append to messages in LiveData
-                  },
-                  this::postThrowable,
-                  () -> {
-                  },
-                  pending
-              );
-        });
+    getSelectedChannel().observeForever(this::subscribeToChannelMessages);
   }
+
 
   public LiveData<User> getCurrentUser() {
     return currentUser;
@@ -76,17 +61,30 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     return Transformations.distinctUntilChanged(selectedChannel);
   }
 
-  public void setSelectedChannel(Channel channel) {
-  selectedChannel.setValue(channel);
-    // TODO: 7/1/25 Start fetch of messages for the channel.
-  }
 
   public MutableLiveData<List<Message>> getMessages() {
     return messages;
   }
-
   public MutableLiveData<Throwable> getThrowable() {
     return throwable;
+  }
+
+  public void setSelectedChannel(Channel channel) {
+    selectedChannel.setValue(channel);
+    // TODO: 7/1/25 Start fetch of messages for the channel.
+  }
+
+  public void sendMessage(Message message) {
+    throwable.setValue(null);
+    chatService
+        .sendMessage(message, selectedChannel.getValue())
+        .ignoreElement()
+        .subscribe(
+            () -> {},
+            this::postThrowable,
+            pending
+        );
+
   }
 
   @Override
@@ -113,6 +111,28 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
         .subscribe(
             channels::postValue,
             this::postThrowable,
+            pending
+        );
+  }
+
+  private void subscribeToChannelMessages(Channel channel) {
+    throwable.setValue(null);
+    if (subscription != null && !subscription.isDisposed()) {
+      subscription.dispose();
+    }
+    List<Message> messages = this.messages.getValue();
+    //noinspection DataFlowIssue
+    messages.clear();
+    subscription = chatService
+        .getMessages(channel)
+        .subscribe(
+            (msgs) -> {
+               messages.addAll(msgs);
+               this.messages.postValue(messages);
+            },
+            this::postThrowable,
+            () -> {
+            },
             pending
         );
   }
