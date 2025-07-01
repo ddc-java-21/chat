@@ -9,6 +9,7 @@ import java.util.UUID;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
@@ -29,5 +30,9 @@ public interface ChatServiceProxy {
   @GET("channels/{channelKey}/messages")
   Single<List<Message>> getMessages(@Header("Authorization") String bearerToken,
       @Path("channelKey") UUID channelKey);
+
+  @POST ("channels/{channelKey}/messages")
+  Single<Message> sendMessage (@Header("Authorization") String bearerToken,
+      @Path("channelKey") UUID channelKey, @Body Message message);
 
 }
