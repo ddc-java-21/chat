@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.chat.service;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
@@ -10,9 +11,12 @@ import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.model.dto.Channel;
 import edu.cnm.deepdive.chat.model.dto.Message;
 import edu.cnm.deepdive.chat.model.dto.User;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -34,6 +38,9 @@ public class ChatService {
   private final String historyCutoffKey;
   private final int historyCutoffDefault;
   private final Scheduler scheduler;
+  private final Scheduler longPollingScheduler;
+
+  private Subject<List<Message>> poll;
 
   @Inject
   ChatService(@ApplicationContext Context context,
@@ -46,6 +53,7 @@ public class ChatService {
     historyCutoffKey = context.getString(R.string.history_cutoff_key);
     historyCutoffDefault = context.getResources().getInteger(R.integer.history_cutoff_default);
     scheduler = Schedulers.single();
+    longPollingScheduler = Schedulers.single();
   }
 
   public Single<User> getMyProfile() {
@@ -58,13 +66,38 @@ public class ChatService {
         .flatMap(proxy::getChannels);
   }
 
-  public Single<List<Message>> getMessages(Channel channel) {
+  public Observable<List<Message>> getMessages(Channel channel) {
     int historyCutoff = preferences.getInt(historyCutoffKey, historyCutoffDefault);
     Instant since = Instant.now().minus(historyCutoff, ChronoUnit.HOURS);
-    return getBearerToken()
-        .flatMap((token) -> longPollingProxy.getMessagesSince(token,channel.getKey(), since));
+    return getMessagesSince(channel, since);
   }
-  // TODO: 6/30/25 Add methods for sending and receiving messages.
+
+  @SuppressLint("CheckResult")
+  public Observable<List<Message>> getMessagesSince(Channel channel, Instant since) {
+    Instant[] mostRecent = {since};
+    poll = BehaviorSubject.createDefault(List.of());
+    return poll
+        .subscribeOn(scheduler)
+        .doOnNext((List<Message> msgs) -> {
+          msgs
+              .stream()
+              .reduce((msg1, msg2) -> msg2)
+              .ifPresent((msg) -> mostRecent[0] = msg.getPosted());
+          //noinspection ResultOfMethodCallIgnored
+          getBearerToken()
+              .observeOn(longPollingScheduler)
+              .flatMap((token) ->
+                  longPollingProxy.getMessagesSince(token, channel.getKey(), mostRecent[0]))
+              .subscribe(poll::onNext);
+        })
+        .filter((msgs) -> !msgs.isEmpty());
+
+  }
+
+  public Single<Message> sendMessage (Message message, Channel channel) {
+    return getBearerToken()
+        .flatMap((token) -> proxy.sendMessage(token, channel.getKey(), message));
+  }
 
   private Single<String> getBearerToken() {
     //noinspection ReactiveStreamsNullableInLambdaInTransform
