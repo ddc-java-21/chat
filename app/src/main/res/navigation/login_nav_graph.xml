@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/login_nav_graph"
+  app:startDestination="@id/pre_login_fragment">
+
+  <action
+    android:id="@+id/show_main"
+    app:destination="@id/main_activity"/>
+
+  <fragment
+    android:id="@+id/pre_login_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.PreLoginFragment"
+    tools:layout="@layout/fragment_pre_login">
+
+    <action
+      android:id="@+id/show_login"
+      app:destination="@id/login_fragment"
+      app:popUpTo="@id/login_nav_graph"/>
+
+  </fragment>
+
+  <fragment
+    android:id="@+id/login_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.LoginFragment"
+    android:label="@string/login_fragment_label"
+    tools:layout="@layout/fragment_login"/>
+
+  <activity
+    android:id="@+id/main_activity"
+    android:name="edu.cnm.deepdive.chat.controller.MainActivity"
+    tools:layout="@layout/app_bar_main"/>
+
+</navigation>

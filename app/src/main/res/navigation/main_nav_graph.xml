@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main_nav_graph"
+  app:startDestination="@id/main_fragment">
+
+  <action
+    android:id="@+id/show_login"
+    app:destination="@id/login_activity"/>
+
+  <action
+    android:id="@+id/show_channel"
+    app:destination="@+id/channel_fragment"
+    app:popUpTo="@id/main_nav_graph">
+
+    <argument
+      android:name="channel"
+      app:argType="edu.cnm.deepdive.chat.model.dto.Channel"/>
+  </action>
+
+  <fragment
+    android:id="@+id/main_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.MainFragment"
+    android:label="@string/main_fragment_label"
+    tools:layout="@layout/fragment_main"/>
+
+  <!-- TODO Add fragment element for other fragments (as necessary). -->
+
+  <fragment
+    android:id="@+id/channel_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.ChannelFragment"
+    tools:layout="@layout/fragment_channel">
+
+    <argument
+      android:name="channel"
+      app:argType="edu.cnm.deepdive.chat.model.dto.Channel"/>
+
+  </fragment>
+
+  <fragment
+    android:id="@+id/settings_fragment"
+    android:name="edu.cnm.deepdive.chat.controller.SettingsFragment"
+    android:label="@string/settings_fragment_label"/>
+
+  <activity
+    android:id="@+id/login_activity"
+    android:name="edu.cnm.deepdive.chat.controller.LoginActivity"
+    tools:layout="@layout/activity_login"/>
+
+</navigation>

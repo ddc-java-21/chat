@@ -33,14 +33,6 @@ public class PreLoginFragment extends Fragment {
     LoginViewModel viewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
     LifecycleOwner owner = getViewLifecycleOwner();
     viewModel
-        .getAccount()
-        .observe(owner, (account) -> {
-          if (account != null) {
-            Navigation.findNavController(root)
-                .navigate(PreLoginFragmentDirections.showList());
-          }
-        });
-    viewModel
         .getRefreshThrowable()
         .observe(owner, (throwable) -> {
           if (throwable != null) {
@@ -48,7 +40,6 @@ public class PreLoginFragment extends Fragment {
                 .navigate(PreLoginFragmentDirections.showLogin());
           }
         });
-    viewModel.refresh();
   }
 
   @Override

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <integer name="history_cutoff_min">0</integer>
+  <integer name="history_cutoff_max">24</integer>
+  <integer name="history_cutoff_default">1</integer>
+</resources>

@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("service")
 public class ChannelController {
 
-  private final AbstractChannelService channelService;
+  private final AbstractChannelService service;
 
   @Autowired
-  ChannelController(AbstractChannelService channelService) {
-    this.channelService = channelService;
+  ChannelController(AbstractChannelService service) {
+    this.service = service;
   }
 
-  @GetMapping(produces = MediaType. APPLICATION_JSON_VALUE)
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Channel> get() {
-    return channelService.getAll();
+    return service.getAll();
   }
 
 }
