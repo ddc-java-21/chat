@@ -3,8 +3,11 @@ package edu.cnm.deepdive.chat.controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ActivityNavigator.Extras;
 import androidx.navigation.NavController;
@@ -17,8 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.MainNavGraphDirections;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.databinding.ActivityMainBinding;
+import edu.cnm.deepdive.chat.model.dto.Channel;
 import edu.cnm.deepdive.chat.viewmodel.ChatViewModel;
 import edu.cnm.deepdive.chat.viewmodel.LoginViewModel;
+import java.util.List;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
   private void setupNavigation() {
     setSupportActionBar(binding.appBarMain.toolbar);
     NavigationView navigationView = binding.navDrawer;
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.main_fragment)
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.main_fragment, R.id.channel_fragment)
         .setOpenableLayout(binding.getRoot())
         .build();
     NavHostFragment host = binding.appBarMain.navHostFragment.getFragment();
@@ -71,21 +76,36 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setupViewModel() {
-    loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    ViewModelProvider provider = new ViewModelProvider(this);
+    loginViewModel = provider.get(LoginViewModel.class);
     loginViewModel
         .getAccount()
         .observe(this, this::handleAccount);
-    chatViewModel = new ViewModelProvider(this).get(ChatViewModel.class);
+    chatViewModel = provider.get(ChatViewModel.class);
     chatViewModel
         .getCurrentUser()
         .observe(this, (user) -> {
-          Log.d(TAG, user.toString());
+          // TODO: 7/1/25 Personalize UI for user.
         });
     chatViewModel
         .getChannels()
-        .observe(this, (channels) -> {
-          Log.d(TAG, channels.toString());
-        });
+        .observe(this, this::handleChannels);
+  }
+
+  private void handleChannels(List<Channel> channels) {
+    Menu menu = binding.navDrawer.getMenu();
+    menu.removeGroup(R.id.channels);
+    channels.forEach((channel) -> menu
+        .add(R.id.channels, Menu.NONE, 1, channel.getTitle())
+        .setCheckable(true)
+        .setOnMenuItemClickListener((item) -> selectChannel(channel, item)));
+  }
+
+  private boolean selectChannel(Channel channel, MenuItem item) {
+    item.setChecked(true);
+    navController.navigate(MainNavGraphDirections.showChannel(channel));
+    binding.getRoot().closeDrawer(GravityCompat.START);
+    return true;
   }
 
   /** @noinspection deprecation*/

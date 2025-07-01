@@ -21,7 +21,7 @@ public class ChannelFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // TODO: 7/1/25 Read channel field from arguments.
+    channel = ChannelFragmentArgs.fromBundle(getArguments()).getChannel();
   }
 
   @Nullable
