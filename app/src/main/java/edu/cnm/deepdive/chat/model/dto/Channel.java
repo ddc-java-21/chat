@@ -1,10 +1,15 @@
 package edu.cnm.deepdive.chat.model.dto;
 
 import com.google.gson.annotations.Expose;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-public class Channel {
+public class Channel implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = -431214265427305503L;
 
   @Expose(serialize = false)
   private final UUID key = null;

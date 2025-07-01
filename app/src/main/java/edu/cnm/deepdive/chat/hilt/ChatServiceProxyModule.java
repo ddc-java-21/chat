@@ -3,6 +3,7 @@ package edu.cnm.deepdive.chat.hilt;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -11,7 +12,9 @@ import dagger.hilt.components.SingletonComponent;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.service.ChatServiceLongPollingProxy;
 import edu.cnm.deepdive.chat.service.ChatServiceProxy;
+import edu.cnm.deepdive.chat.view.serialization.InstantDeserializer;
 import java.time.Duration;
+import java.time.Instant;
 import javax.inject.Singleton;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -29,10 +32,10 @@ public class ChatServiceProxyModule {
 
   @Provides
   @Singleton
-  Gson provideGson() {
+  Gson provideGson(JsonDeserializer<Instant> deserializer) {
     return new GsonBuilder()
         .excludeFieldsWithoutExposeAnnotation()
-        // TODO: 6/30/25 Register type adapters, as necessary.
+        .registerTypeAdapter(Instant.class, deserializer)
         .create();
   }
 
