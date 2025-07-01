@@ -33,7 +33,8 @@
       android:id="@+id/sign_out"
       android:title="@string/sign_out_title"
       app:showAsAction="never"
-      android:icon="@drawable/logout"/>
+      android:icon="@drawable/logout"
+      android:orderInCategory="1000"/>
 
   </group>
 

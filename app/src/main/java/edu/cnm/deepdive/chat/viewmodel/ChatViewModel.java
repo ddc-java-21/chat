@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.cnm.deepdive.chat.model.dto.Channel;
+import edu.cnm.deepdive.chat.model.dto.Message;
 import edu.cnm.deepdive.chat.model.dto.User;
 import edu.cnm.deepdive.chat.service.ChatService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -21,6 +22,8 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
   private static final String TAG = ChatViewModel.class.getSimpleName();
   private final ChatService chatService;
   private final MutableLiveData<User> currentUser;
+  private final MutableLiveData<Channel> selectedChannel;
+  private final MutableLiveData<List<Message>> messages;
   private final MutableLiveData<List<Channel>> channels;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
@@ -30,6 +33,8 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     this.chatService = chatService;
     currentUser = new MutableLiveData<>();
     channels = new MutableLiveData<>();
+    selectedChannel = new MutableLiveData<>();
+    messages = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     fetchCurrentUser();
@@ -42,6 +47,19 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
 
   public LiveData<List<Channel>> getChannels() {
     return channels;
+  }
+
+  public LiveData<List<Message>> getMessages() {
+    return messages;
+  }
+
+  public LiveData<Channel> getSelectedChannel() {
+    return selectedChannel;
+  }
+
+  public void setSelectedChannel(Channel channel) {
+    selectedChannel.setValue(channel);
+    // TODO: 7/1/2025 Start fetch of messages in selected channel
   }
 
   public LiveData<Throwable> getThrowable() {

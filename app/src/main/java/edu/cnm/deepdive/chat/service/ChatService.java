@@ -8,10 +8,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import edu.cnm.deepdive.chat.R;
 import edu.cnm.deepdive.chat.model.dto.Channel;
+import edu.cnm.deepdive.chat.model.dto.Message;
 import edu.cnm.deepdive.chat.model.dto.User;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,6 +56,13 @@ public class ChatService {
   public Single<List<Channel>> getChannels() {
     return   getBearerToken()
         .flatMap(proxy::getChannels);
+  }
+
+  public Single<List<Message>> getMessages(Channel channel) {
+    int historyCutoff = preferences.getInt(historyCutoffKey, historyCutoffDefault);
+    Instant since = Instant.now().minus(historyCutoff, ChronoUnit.HOURS);
+    return getBearerToken()
+        .flatMap(token -> longPollingProxy.getMessagesSince(token, channel.getKey(), since));
   }
 
   // TODO: 6/30/2025 Add methods for sending and receiving messages
