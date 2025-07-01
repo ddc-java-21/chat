@@ -2,6 +2,7 @@ package edu.cnm.deepdive.chat.service.dao;
 
 import edu.cnm.deepdive.chat.model.entity.Channel;
 import edu.cnm.deepdive.chat.model.entity.Message;
+import edu.cnm.deepdive.chat.model.projections.Posted;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,5 +19,7 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
   //  This is included to show a JPQL implementation of a Spring Data inferred query.
 //  @Query("SELECT m FROM Message AS m WHERE m.channel = :channel AND m.posted > :cutoff")
   Iterable<Message> findByChannelAndPostedAfterOrderByPostedAsc(Channel channel, Instant cutoff);
+
+  Optional<Posted> findFirstByChannelAndPostedAfterOrderByPostedDesc(Channel channel, Instant cutoff);
 
 }
