@@ -15,6 +15,7 @@ import edu.cnm.deepdive.chat.model.dto.User;
 import edu.cnm.deepdive.chat.service.ChatService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -39,28 +40,12 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     currentUser = new MutableLiveData<>();
     channels = new MutableLiveData<>();
     selectedChannel = new MutableLiveData<>();
-    messages = new MutableLiveData<>();
+    messages = new MutableLiveData<>(new ArrayList<>());
     throwable = new MutableLiveData<>();
     pending  = new CompositeDisposable();
     fetchCurrentUser();
     fetchChannels();
-    getSelectedChannel()
-        .observeForever((channel) -> {
-          if (subscription != null && !subscription.isDisposed()) {
-            subscription.dispose();
-          }
-          subscription = chatService
-              .getMessages(channel)
-              .subscribe(
-                  (msgs) -> {
-                    // TODO: 7/1/25 Append to messages in LiveData
-                  },
-                  this::postThrowable,
-                  () -> {
-                  },
-                  pending
-              );
-        });
+    getSelectedChannel().observeForever(this::subscribeToChannelMessages);
   }
 
   public LiveData<User> getCurrentUser() {
@@ -88,6 +73,18 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     return throwable;
   }
 
+  public void sendMessage(Message message) {
+    throwable.setValue(null);
+    chatService
+        .sendMessage(selectedChannel.getValue(), message)
+        .ignoreElement()
+        .subscribe(
+            () -> {},
+            this::postThrowable,
+            pending
+        );
+  }
+
   @Override
   public void onStop(@NonNull LifecycleOwner owner) {
     pending.clear();
@@ -112,6 +109,28 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
         .subscribe(
             channels::postValue,
             this::postThrowable,
+            pending
+        );
+  }
+
+  private void subscribeToChannelMessages(Channel channel) {
+    throwable.setValue(null);
+    if (subscription != null && !subscription.isDisposed()) {
+      subscription.dispose();
+    }
+    List<Message> messages = this.messages.getValue();
+    //noinspection DataFlowIssue
+    messages.clear();
+    subscription = chatService
+        .getMessages(channel)
+        .subscribe(
+            (msgs) -> {
+              messages.addAll(msgs);
+              this.messages.postValue(messages);
+            },
+            this::postThrowable,
+            () -> {
+            },
             pending
         );
   }
