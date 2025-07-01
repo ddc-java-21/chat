@@ -6,6 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.cnm.deepdive.chat.model.dto.Channel;
@@ -13,6 +14,7 @@ import edu.cnm.deepdive.chat.model.dto.Message;
 import edu.cnm.deepdive.chat.model.dto.User;
 import edu.cnm.deepdive.chat.service.ChatService;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -27,8 +29,9 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
   private final MutableLiveData<Channel> selectedChannel;
   private final MutableLiveData<List<Message>> messages;
   private final MutableLiveData<Throwable> throwable;
-
   private final CompositeDisposable pending;
+
+  private Disposable subscription;
 
   @Inject
   ChatViewModel(ChatService chatService) {
@@ -41,6 +44,23 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
     pending  = new CompositeDisposable();
     fetchCurrentUser();
     fetchChannels();
+    getSelectedChannel()
+        .observeForever((channel) -> {
+          if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
+          }
+          subscription = chatService
+              .getMessages(channel)
+              .subscribe(
+                  (msgs) -> {
+                    // TODO: 7/1/25 Append to messages in LiveData
+                  },
+                  this::postThrowable,
+                  () -> {
+                  },
+                  pending
+              );
+        });
   }
 
   public LiveData<User> getCurrentUser() {
@@ -52,7 +72,7 @@ public class ChatViewModel extends ViewModel implements DefaultLifecycleObserver
   }
 
   public LiveData<Channel> getSelectedChannel() {
-    return selectedChannel;
+    return Transformations.distinctUntilChanged(selectedChannel);
   }
 
   public void setSelectedChannel(Channel channel) {
