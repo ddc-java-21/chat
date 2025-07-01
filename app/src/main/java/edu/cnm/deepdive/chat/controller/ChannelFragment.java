@@ -17,11 +17,11 @@ public class ChannelFragment extends Fragment {
 
   private FragmentChannelBinding binding;
   private Channel channel;
-  
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // TODO: 7/1/25 Read channel field from arguments. 
+    channel = ChannelFragmentArgs.fromBundle(getArguments()).getChannel();
   }
 
   @Nullable
@@ -39,7 +39,7 @@ public class ChannelFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    // TODO: 7/1/25 Attach to viewmodel(s) and observe livedata. 
+    // TODO: 7/1/25 Attach to viewmodel(s) and observe livedata.
   }
 
   @Override
