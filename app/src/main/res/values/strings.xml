@@ -8,4 +8,6 @@
   <string name="history_cutoff_title">Requested message history (in hours).</string>
   <string name="settings_fragment_label">Chat settings</string>
   <string name="bearer_token_title">Bearer token</string>
+  <string name="message_hint">Message text</string>
+  <string name="send_description">Send message</string>
 </resources>
