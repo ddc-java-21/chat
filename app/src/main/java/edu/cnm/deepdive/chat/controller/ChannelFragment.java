@@ -43,7 +43,7 @@ public class ChannelFragment extends Fragment {
     binding.send.setOnClickListener((v) -> {
       Message message = new Message();
       message.setText(binding.message.getText().toString().strip());
-      viewModel.sendMessage(message);˚
+      viewModel.sendMessage(message);
     });
     return binding.getRoot();
   }
