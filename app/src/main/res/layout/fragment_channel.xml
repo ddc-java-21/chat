@@ -4,9 +4,61 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".controller.ChannelFragment">
 
 <!--  TODO Add recycler view to display messages an Edit Text for editing messages, and a button to send-->
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/messages"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
+    android:layout_marginBottom="@dimen/full_dynamic_spacing"/>
+
+  <androidx.constraintlayout.widget.Barrier
+    android:id="@+id/bottom_barrier"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:barrierDirection="top"
+    app:constraint_referenced_ids="message,send"
+    />
+
+  <EditText
+    android:id="@+id/message"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/full_dynamic_spacing"
+    android:layout_marginBottom="@dimen/full_dynamic_spacing"
+    android:layout_marginTop="@dimen/full_dynamic_spacing"
+    android:layout_marginEnd="@dimen/half_dynamic_spacing"
+    android:importantForAutofill="no"
+    android:inputType="textMultiLine"
+    android:maxLines="@integer/max_message_lines"
+    android:hint="@string/message_hint"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/send"/>
+
+  <ImageButton
+    android:id="@+id/send"
+    android:layout_width="@dimen/send_button_size"
+    android:layout_height="@dimen/send_button_size"
+    android:src="@drawable/send"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:layout_marginStart="@dimen/half_dynamic_spacing"
+    android:layout_marginEnd="@dimen/full_dynamic_spacing"
+    android:layout_marginVertical="@dimen/full_dynamic_spacing"
+    android:contentDescription="@string/send_description"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
