@@ -22,3 +22,9 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://accounts.google.com
+
+chat:
+  polling:
+    timeout: 25s
+    interval: 2s
+    pool-size: 4
