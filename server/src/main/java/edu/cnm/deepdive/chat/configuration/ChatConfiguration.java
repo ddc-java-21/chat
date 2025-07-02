@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 @ConfigurationProperties(prefix = "chat")
 public class ChatConfiguration {
 
+  /**
+   * Message polling properties.
+   */
   private final Polling polling;
 
   @ConstructorBinding
@@ -14,10 +17,14 @@ public class ChatConfiguration {
     this.polling = polling;
   }
 
+  /**
+   * Get message polling properties.
+   */
   public Polling getPolling() {
     return polling;
   }
 
+  @SuppressWarnings("ClassCanBeRecord")
   public static class Polling {
 
     /**
