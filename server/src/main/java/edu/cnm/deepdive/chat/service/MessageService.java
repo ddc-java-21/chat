@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.chat.service;
 
+import edu.cnm.deepdive.chat.configuration.ChatConfiguration;
+import edu.cnm.deepdive.chat.configuration.ChatConfiguration.Polling;
 import edu.cnm.deepdive.chat.model.entity.Channel;
 import edu.cnm.deepdive.chat.model.entity.Message;
 import edu.cnm.deepdive.chat.model.entity.User;
@@ -21,20 +23,23 @@ import org.springframework.web.context.request.async.DeferredResult;
 @Profile("service")
 public class MessageService implements AbstractMessageService {
 
-  private static final long POLLING_TIMEOUT_MS = 25_000;
-  private static final long POLLING_INTERVAL_MS = 3_000;
-  private static final int POLLING_POOL_SIZE = 4;
   private static final List<Message> EMPTY_MESSAGE_LIST = List.of();
 
   private final MessageRepository messageRepository;
   private final ChannelRepository channelRepository;
   private final ScheduledExecutorService scheduler;
+  private final long pollingInterval;
+  private final long pollingTimeout;
 
   @Autowired
-  MessageService(MessageRepository messageRepository, ChannelRepository channelRepository) {
+  MessageService(MessageRepository messageRepository, ChannelRepository channelRepository,
+      ChatConfiguration configuration) {
     this.messageRepository = messageRepository;
     this.channelRepository = channelRepository;
-    this.scheduler = Executors.newScheduledThreadPool(POLLING_POOL_SIZE);
+    Polling polling = configuration.getPolling();
+    scheduler = Executors.newScheduledThreadPool(polling.getPoolSize());
+    pollingInterval = polling.getInterval().toMillis();
+    pollingTimeout = polling.getTimeout().toMillis();
   }
 
   @Override
@@ -47,7 +52,7 @@ public class MessageService implements AbstractMessageService {
 
   @Override
   public DeferredResult<Iterable<Message>> getAllInChannelSince(UUID channelKey, Instant cutoff) {
-    DeferredResult<Iterable<Message>> result = new DeferredResult<>(POLLING_TIMEOUT_MS);
+    DeferredResult<Iterable<Message>> result = new DeferredResult<>(pollingTimeout);
     ScheduledFuture<?>[] futurePolling = new ScheduledFuture<?>[1];
     Runnable timeoutTask = () -> sendResult(futurePolling, result, EMPTY_MESSAGE_LIST);
     result.onTimeout(timeoutTask);
@@ -56,7 +61,7 @@ public class MessageService implements AbstractMessageService {
         .orElseThrow();
     Runnable pollingTask = () -> checkForMessages(cutoff, channel, futurePolling, result);
     futurePolling[0] =
-        scheduler.scheduleAtFixedRate(pollingTask, 0, POLLING_INTERVAL_MS, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(pollingTask, 0, pollingInterval, TimeUnit.MILLISECONDS);
     return result;
   }
 

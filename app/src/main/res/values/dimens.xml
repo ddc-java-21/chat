@@ -6,4 +6,5 @@
   <dimen name="send_button_size">48dp</dimen>
   <dimen name="avatar_width">48dp</dimen>
   <dimen name="quarter_dynamic_spacing">4dp</dimen>
+  <dimen name="half_static_spacing">4dp</dimen>
 </resources>
