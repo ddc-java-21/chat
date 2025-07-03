@@ -7,8 +7,6 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".controller.ChannelFragment">
 
-<!--  TODO Add recycler view to display messages an Edit Text for editing messages, and a button to send-->
-
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/messages"
     android:layout_width="0dp"
@@ -19,7 +17,8 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
-    android:layout_marginBottom="@dimen/full_dynamic_spacing"/>
+    android:layout_marginBottom="@dimen/full_dynamic_spacing"
+    tools:listitem="@layout/item_channel_message"/>
 
   <androidx.constraintlayout.widget.Barrier
     android:id="@+id/bottom_barrier"

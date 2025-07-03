@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
   private void setupViewModel() {
     LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+    getLifecycle().addObserver(viewModel);
     viewModel
         .getAccount()
         .observe(this, this::handleAccount);

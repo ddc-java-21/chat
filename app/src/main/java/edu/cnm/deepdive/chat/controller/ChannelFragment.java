@@ -14,7 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.databinding.FragmentChannelBinding;
 import edu.cnm.deepdive.chat.model.dto.Channel;
 import edu.cnm.deepdive.chat.model.dto.Message;
+import edu.cnm.deepdive.chat.view.adapter.ChannelMessagesAdapter;
 import edu.cnm.deepdive.chat.viewmodel.ChatViewModel;
+import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class ChannelFragment extends Fragment {
@@ -24,6 +26,9 @@ public class ChannelFragment extends Fragment {
   private FragmentChannelBinding binding;
   private Channel channel;
   private ChatViewModel viewModel;
+
+  @Inject
+  ChannelMessagesAdapter adapter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +49,9 @@ public class ChannelFragment extends Fragment {
       Message message = new Message();
       message.setText(binding.message.getText().toString().strip());
       viewModel.sendMessage(message);
+      binding.message.setText("");
     });
+    binding.messages.setAdapter(adapter);
     return binding.getRoot();
   }
 
@@ -54,8 +61,8 @@ public class ChannelFragment extends Fragment {
     viewModel = new ViewModelProvider(requireActivity()).get(ChatViewModel.class);
     viewModel.setSelectedChannel(channel);
     viewModel.getMessages().observe(getViewLifecycleOwner(), (messages) -> {
-      Log.d(TAG, messages.toString());
-      // TODO: 7/2/2025 Pass new messages to recyclerview adapter 
+      adapter.setMessages(messages);
+      binding.messages.scrollToPosition(messages.size() - 1);
     });
   }
 
