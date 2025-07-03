@@ -2,11 +2,8 @@ package edu.cnm.deepdive.chat.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -36,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel loginViewModel;
-  private ChatViewModel chatViewModel;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
   private void setupViewModel() {
     ViewModelProvider provider = new ViewModelProvider(this);
     loginViewModel = provider.get(LoginViewModel.class);
-    loginViewModel
-        .getAccount()
-        .observe(this, this::handleAccount);
-    chatViewModel = provider.get(ChatViewModel.class);
+    getLifecycle().addObserver(loginViewModel);
+    loginViewModel.getAccount().observe(this, this::handleAccount);
+    ChatViewModel chatViewModel = provider.get(ChatViewModel.class);
+    getLifecycle().addObserver(chatViewModel);
     chatViewModel
         .getCurrentUser()
         .observe(this, (user) -> {

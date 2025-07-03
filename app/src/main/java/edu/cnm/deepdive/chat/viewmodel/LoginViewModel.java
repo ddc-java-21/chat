@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -91,6 +92,12 @@ public class LoginViewModel extends ViewModel implements DefaultLifecycleObserve
         .doOnError((throwable) -> postThrowable(throwable, signInThrowable))
         .subscribe();
     pending.add(disposable);
+  }
+
+  @Override
+  public void onStop(@NonNull LifecycleOwner owner) {
+    pending.clear();
+    DefaultLifecycleObserver.super.onStop(owner);
   }
 
   private void postThrowable(
