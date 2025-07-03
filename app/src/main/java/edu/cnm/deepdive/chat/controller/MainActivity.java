@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.ActivityNavigator.Extras;
 import androidx.navigation.NavController;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private LoginViewModel loginViewModel;
-  private ChatViewModel chatViewModel;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,10 +80,13 @@ public class MainActivity extends AppCompatActivity {
   private void setupViewModel() {
     ViewModelProvider provider = new ViewModelProvider(this);
     loginViewModel = provider.get(LoginViewModel.class);
+    Lifecycle lifecycle = getLifecycle();
+    lifecycle.addObserver(loginViewModel);
     loginViewModel
         .getAccount()
         .observe(this, this::handleAccount);
-    chatViewModel = provider.get(ChatViewModel.class);
+    ChatViewModel chatViewModel = provider.get(ChatViewModel.class);
+    lifecycle.addObserver(chatViewModel);
     chatViewModel
         .getCurrentUser()
         .observe(this, (user) -> {
