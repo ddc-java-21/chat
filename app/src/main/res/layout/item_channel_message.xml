@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="@dimen/half_dynamic_spacing">
+
+  <ImageView
+    android:id="@+id/avatar"
+    android:layout_width="@dimen/avatar_width"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="no"
+    android:scaleType="fitCenter"
+    android:adjustViewBounds="true"
+    android:layout_marginVertical="@dimen/half_dynamic_spacing"
+    android:layout_marginStart="@dimen/half_dynamic_spacing"
+    android:layout_marginEnd="@dimen/half_static_spacing"
+    android:src="@drawable/portrait"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/author"
+    />
+
+  <TextView
+    android:id="@+id/author"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/half_static_spacing"
+    android:includeFontPadding="false"
+    android:textIsSelectable="true"
+    app:layout_constraintTop_toTopOf="@id/avatar"
+    app:layout_constraintStart_toEndOf="@id/avatar"
+    app:layout_constraintEnd_toStartOf="@id/posted"
+    tools:text="Author Name"/>
+
+  <TextView
+    android:id="@+id/posted"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/half_static_spacing"
+    android:layout_marginEnd="@dimen/half_dynamic_spacing"
+    android:textAlignment="viewEnd"
+    android:includeFontPadding="false"
+    android:textIsSelectable="true"
+    app:layout_constraintBaseline_toBaselineOf="@id/author"
+    app:layout_constraintStart_toEndOf="@id/author"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:text="7/2/25, 12:00 AM"/>
+
+  <TextView
+    android:id="@id/text"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/half_dynamic_spacing"
+    android:includeFontPadding="false"
+    android:textIsSelectable="true"
+    app:layout_constraintTop_toBottomOf="@id/author"
+    app:layout_constraintStart_toStartOf="@id/author"
+    app:layout_constraintEnd_toEndOf="@id/posted"
+    tools:text="Some message\nThis is the second line."/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
