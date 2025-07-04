@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.chat.databinding.FragmentChannelBinding;
 import edu.cnm.deepdive.chat.model.dto.Channel;
@@ -63,8 +64,12 @@ public class ChannelFragment extends Fragment {
     viewModel
         .getMessages()
         .observe(getViewLifecycleOwner(), (messages) -> {
+          boolean atEnd = ((LinearLayoutManager) binding.messages.getLayoutManager())
+              .findLastVisibleItemPosition() >= binding.messages.getChildCount() - 1;
           adapter.setMessages(messages);
-          binding.messages.scrollToPosition(messages.size() - 1);
+          if (atEnd) {
+            binding.messages.scrollToPosition(messages.size() - 1);
+          }
         });
   }
 

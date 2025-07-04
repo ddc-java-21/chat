@@ -17,10 +17,10 @@
     android:layout_marginVertical="@dimen/half_dynamic_spacing"
     android:layout_marginStart="@dimen/half_dynamic_spacing"
     android:layout_marginEnd="@dimen/half_static_spacing"
-    android:src="@drawable/portrait"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/author"/>
+    app:layout_constraintEnd_toStartOf="@id/author"
+    tools:src="@drawable/portrait"/>
 
   <TextView
     android:id="@+id/author"
