@@ -20,6 +20,10 @@ order: 0
 
 [//]: # (TODO Write a bullet list here, including at least 2 different types of intended users. Along with each type of intended user, include at least 1 _user story_. A user story is usually just 1 simple sentence &#40;no more than 2 sentences&#41;, in the voice of the intended user, stating a specific task that the user performs using the app, and the benefit that will be obtained. See rubric for required form.)
 
+- A worker who needs a simple, ongoing channel of communication with co-workers.
+
+    > As a quality engineer, I use the "developers" channel of Chat to ask questions and report issues in the build so that the developers get immediate feedback. 
+
 ## Functionality
 
 [//]: # (TODO List &#40;using a bullet list---or ordered list, if order is relevant&#41; the key functional aspects that will be provided by the app---i.e., tell us what the user will be able to do using the app. This should not simply be a re-statement of the [summary]&#40;#summary&#41;, but should instead provide a more specific articulation of the functionality and user experience. )
