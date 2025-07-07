@@ -23,3 +23,11 @@ order: 20
 ## Data Definition Language code
 
 {% include linked-file.md file="sql/ddl-server.sql" type="sql" %}
+
+## Implementation
+
+### Entity classes
+
+- [`User`](https://github.com/ddc-java-21/chat/blob/main/server/src/main/java/edu/cnm/deepdive/chat/model/entity/User.java)
+- [`Channel`](https://github.com/ddc-java-21/chat/blob/main/server/src/main/java/edu/cnm/deepdive/chat/model/entity/Channel.java)
+- [`Message`](https://github.com/ddc-java-21/chat/blob/main/server/src/main/java/edu/cnm/deepdive/chat/model/entity/Message.java)
