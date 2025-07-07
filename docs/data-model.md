@@ -22,4 +22,4 @@ order: 20
 
 ## Data Definition Language code
 
-{% include linked-file.md file="sql/ddl-server.sql" %}
+{% include linked-file.md file="sql/ddl-server.sql" type="sql" %}
