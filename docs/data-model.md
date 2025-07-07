@@ -19,3 +19,7 @@ order: 20
 ## Entity-relationship diagram (ERD)
 
 [![Entity-relationship diagram](img/erd.svg)](pdf/erd.pdf)
+
+## Data Definition Language code
+
+{% include linked-file.md file="sql/ddl-server.sql" %}
