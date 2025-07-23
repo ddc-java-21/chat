@@ -1,7 +1,9 @@
 package edu.cnm.deepdive.chat.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.cnm.deepdive.chat.model.entity.User;
 import edu.cnm.deepdive.chat.service.AbstractUserService;
+import edu.cnm.deepdive.chat.view.UserViews;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +31,13 @@ public class UserController {
   }
 
   @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  @JsonView(UserViews.Owner.class)
   public User get() {
     return service.getMe(service.getCurrentUser());
   }
 
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @JsonView(UserViews.Public.class)
   public User get(@PathVariable UUID key) {
     return service.getUser(service.getCurrentUser(), key);
   }

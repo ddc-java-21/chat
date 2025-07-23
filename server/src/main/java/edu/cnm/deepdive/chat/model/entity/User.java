@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.chat.view.UserViews;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ import org.hibernate.validator.constraints.Length;
 )
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"key", "displayName", "avatar", "created"})
+@JsonView(UserViews.Public.class)
 public class User {
 
   private static final int MAX_DISPLAY_NAME_LENGTH = 30;
@@ -59,6 +62,7 @@ public class User {
   @Temporal(TemporalType.TIMESTAMP)
   @Column(nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonView(UserViews.Owner.class)
   private Instant created;
 
   public long getId() {
