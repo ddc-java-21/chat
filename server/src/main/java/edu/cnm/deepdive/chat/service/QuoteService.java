@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,9 +19,11 @@ import org.springframework.web.client.RestTemplate;
 @Profile("service")
 public class QuoteService {
 
-  private static final int IDLE_TIME_POLLING_INTERVAL_MS = 30_000;
+  private static final int POLLING_INTERVAL_MS = 30_000;
   private static final int IDLE_TIME_THRESHOLD_MS = 300_000;
   private static final String ZEN_QUOTE_URL = "https://zenquotes.io/api/random";
+
+  private static final String QUOTE_FORMAT = "\"%1$s\"—%2$s";
   private final UserRepository userRepository;
   private final ChannelRepository channelRepository;
   private final MessageRepository messageRepository;
@@ -33,14 +36,18 @@ public class QuoteService {
     this.messageRepository = messageRepository;
   }
 
-  @Scheduled(fixedDelay = IDLE_TIME_POLLING_INTERVAL_MS)
+  @Scheduled(fixedRate = POLLING_INTERVAL_MS)
   public void addQuote() {
     Instant cutoff = Instant.now().minusMillis(IDLE_TIME_THRESHOLD_MS);
     List<Channel> channels = channelRepository.findByIdleTime(cutoff);
     if (!channels.isEmpty()) {
       RestTemplate restTemplate = new RestTemplate();
-      ZenQuote[] quotes = restTemplate.getForObject(ZEN_QUOTE_URL, ZenQuote[].class);
-      if (quotes != null && quotes.length > 0) {
+      ResponseEntity<ZenQuote[]> response = restTemplate.getForEntity(ZEN_QUOTE_URL, ZenQuote[].class);
+      ZenQuote[] quotes;
+      if (response.getStatusCode().is2xxSuccessful()
+          && (quotes = response.getBody()) != null
+          && quotes.length > 0) {
+        ZenQuote quote = quotes[0];
         userRepository
             .findById(1L)
             .map((user) -> channels
@@ -49,7 +56,7 @@ public class QuoteService {
                   Message message = new Message();
                   message.setChannel(channel);
                   message.setAuthor(user);
-                  message.setText(quotes[0].getQuote());
+                  message.setText(QUOTE_FORMAT.formatted(quote.getQuote(), quote.getAuthor()));
                   return message;
                 })
                 .toList()
