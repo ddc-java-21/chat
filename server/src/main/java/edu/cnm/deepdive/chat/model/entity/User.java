@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.Length;
 public class User {
 
   private static final int MAX_DISPLAY_NAME_LENGTH = 30;
-  private static final int MAX_OAUTH_KEY_LENGTH = 30;
+  public static final int MAX_OAUTH_KEY_LENGTH = 30;
 
   @Id
   @GeneratedValue

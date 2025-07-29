@@ -2,7 +2,9 @@ package edu.cnm.deepdive.chat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.cnm.deepdive.chat.model.entity.Channel;
+import edu.cnm.deepdive.chat.model.entity.User;
 import edu.cnm.deepdive.chat.service.dao.ChannelRepository;
+import edu.cnm.deepdive.chat.service.dao.UserRepository;
 import java.io.InputStream;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,15 @@ import org.springframework.stereotype.Component;
 @Profile("preload")
 public class Preloader implements CommandLineRunner {
 
-  private final ChannelRepository repository;
+  private final UserRepository userRepository;
+  private final ChannelRepository channelRepository;
   private final String preloadFile;
 
   @Autowired
-  Preloader(ChannelRepository repository,
+  Preloader(UserRepository userRepository, ChannelRepository channelRepository,
       @Value("${chat.preload.file}") String preloadFile) {
-    this.repository = repository;
+    this.userRepository = userRepository;
+    this.channelRepository = channelRepository;
     this.preloadFile = preloadFile;
   }
 
@@ -33,7 +37,11 @@ public class Preloader implements CommandLineRunner {
     try (InputStream input = channelData.getInputStream()) {
       ObjectMapper mapper = new ObjectMapper();
       Channel[] channels = mapper.readValue(input, Channel[].class);
-      repository.saveAll(Arrays.asList(channels));
+      channelRepository.saveAll(Arrays.asList(channels));
+      User user =  new User();
+      user.setOauthKey("\u0000".repeat(User.MAX_OAUTH_KEY_LENGTH));
+      user.setDisplayName("Chatbot");
+      userRepository.save(user);
     }
   }
 }
