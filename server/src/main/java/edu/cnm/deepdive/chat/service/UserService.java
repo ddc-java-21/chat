@@ -20,8 +20,9 @@ public class UserService implements AbstractUserService {
     this.repository = repository;
   }
 
+  //Maybe add synchronized so that only one thread can use this so that you can't have mulitple threads competing for this method
   @Override
-  public User getOrAddUser(String oauthKey, User profile) {
+  public synchronized User getOrAddUser(String oauthKey, User profile) {
     return repository
         .findByOauthKey(oauthKey)
         .or(() -> {

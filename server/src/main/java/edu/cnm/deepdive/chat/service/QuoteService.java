@@ -21,8 +21,8 @@ import org.springframework.web.client.RestTemplate;
 @Profile("service")
 public class QuoteService {
 
-  private static final long POLLING_INTERVAL_MS = 30_000;
-  private static final long IDLE_TIME_THRESHOLD_MS = 90_000;
+  private static final long POLLING_INTERVAL_MS = 300_000;
+  private static final long IDLE_TIME_THRESHOLD_MS = 900_000;
   private static final String ZEN_QUOTE_URL = "https://zenquotes.io/api/random";
   private static final String QUOTE_FORMAT = "\"%1$s\"—%2$s";
 
